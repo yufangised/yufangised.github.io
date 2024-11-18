@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>present ink</title>
+        <!-- FONTS -->
+        <link href="https://fonts.googleapis.com/css2?family=Anonymous+Pro&display=swap" rel="stylesheet">
+        <!-- META -->
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="creative technologies">
+        <meta name="author" content="yufan wang">
+        <!-- STYLES -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <link rel="stylesheet" type="text/css" href="/css/style.css?rnd=132">
+        <link rel="shortcut icon" href="/src/favicon.ico">
+        <!-- SCRIPTS -->
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+        <!-- ANALYTICS -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-163543797-1"></script>
+    </head>
+    <body>
+       
+        <!-- Full-Screen Container -->
+        <div class="full-screen-container" id="background-container">
+            <!-- Content can go here if needed -->
+        </div>
+
+        <!-- Overlay Menu -->
+        <div class="menu">
+            <a href="/index.html" data-image="/images/default.png">YUFAN WANG</a>
+            <a>.</a>
+            <a href="/about.html" data-image="/images/default.png">about</a>
+            <a href="/contacts.html" data-image="/images/default.png">contacts</a>
+            <a>.</a>
+        </div>
+        <script>
+            // Get all menu links
+            const menuLinks = document.querySelectorAll('.menu a');
+            const backgroundContainer = document.getElementById('background-container');
+
+            // Add hover event listeners to change background
+            menuLinks.forEach(link => {
+                link.addEventListener('mouseover', function() {
+                    const imageUrl = this.getAttribute('data-image');
+                    backgroundContainer.style.backgroundImage = `url('${imageUrl}')`;
+                });
+
+                // Optionally, revert back to default when mouse leaves the menu item
+                link.addEventListener('mouseout', function() {
+                    backgroundContainer.style.backgroundImage = "url('/images/default.png')";
+                });
+            });
+        </script>
+
+        <div class="content-wrapper">
+            <div class="content-container">
+                <div class="col-md-9 col-sm-12 col-xs-12">
+                    <p>
+                        <b>PRESENT INK / 2024 / #art #ink</b>
+                    </p>
+                    <p>
+                        Since 2015, I started a parallare career as an visual artist. present ink is my art studio
+                    </p>
+                    <p>
+                        here are some seriers of the latest practice
+                    </p>
+                    
+                </div>
+                
+            </div>
+        </div>
+
+
+    </body>
+</html>

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>function</title>
+        <!-- FONTS -->
+        <link href="https://fonts.googleapis.com/css2?family=Anonymous+Pro&display=swap" rel="stylesheet">
+        <!-- META -->
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="creative technologies">
+        <meta name="author" content="yufan wang">
+        <!-- STYLES -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <link rel="stylesheet" type="text/css" href="/css/style.css?rnd=132">
+        <link rel="shortcut icon" href="/src/favicon.ico">
+        <!-- SCRIPTS -->
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+        <!-- ANALYTICS -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-163543797-1"></script>
+    </head>
+    <body>
+       
+        <!-- Full-Screen Container -->
+        <div class="full-screen-container" id="background-container">
+            <!-- Content can go here if needed -->
+        </div>
+
+        <!-- Overlay Menu -->
+        <div class="menu">
+            <a href="/index.html" data-image="/images/default.png">YUFAN WANG</a>
+            <a>.</a>
+            <a href="/about.html" data-image="/images/default.png">about</a>
+            <a href="/contacts.html" data-image="/images/default.png">contacts</a>
+            <a>.</a>
+        </div>
+        <script>
+            // Get all menu links
+            const menuLinks = document.querySelectorAll('.menu a');
+            const backgroundContainer = document.getElementById('background-container');
+
+            // Add hover event listeners to change background
+            menuLinks.forEach(link => {
+                link.addEventListener('mouseover', function() {
+                    const imageUrl = this.getAttribute('data-image');
+                    backgroundContainer.style.backgroundImage = `url('${imageUrl}')`;
+                });
+
+                // Optionally, revert back to default when mouse leaves the menu item
+                link.addEventListener('mouseout', function() {
+                    backgroundContainer.style.backgroundImage = "url('/images/default.png')";
+                });
+            });
+        </script>
+
+        <div class="content-wrapper">
+            <div class="content-container">
+                <div class="col-md-9 col-sm-12 col-xs-12">
+                    <p>
+                        <b>function / 2012 / ciid</b> 
+                    </p>
+                    <p>
+                        <b>#design #electronics #art installation #processing #arduino</b>
+                    </p>
+                    <p>
+                        Fireworks Lantern is a creative lantern designed using PCB (Printed Circuit Board) as the main material. 
+                        It can interact with ambient sound (especially in the context of the fireworks during the Chinese new year) by lighting LED lights reacting to the volume of sound at a sensitive frequency range.
+                    </p>
+                    <p>
+                        This project is my first attempt to explore the creative usages of PCB to create objects, forms not only with the functional value but also the aesthetic and culture values. It brings together two Chinese traditional elements -- the lantern and the fireworks, which give a the strong and interesting visual contrast between the tradition and the sense of technology.
+                    </p>
+                    <div class="embed-responsive embed-responsive-16by9">
+                        <iframe 
+                            src="https://player.vimeo.com/video/20504579" 
+                            class="embed-responsive-item" 
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+
+                    <p>.</p>
+                    <p>.</p>
+
+                    <div id="imageCarousel_1" class="carousel slide" data-ride="carousel">
+                        <!-- Indicators (optional) -->
+                        <ol class="carousel-indicators">
+                            <li data-target="#imageCarousel_1" data-slide-to="0" class="active"></li>
+                            <li data-target="#imageCarousel_1" data-slide-to="1"></li>
+                            <li data-target="#imageCarousel_1" data-slide-to="2"></li>
+                            <li data-target="#imageCarousel_1" data-slide-to="3"></li>
+                            <li data-target="#imageCarousel_1" data-slide-to="4"></li>
+                            <li data-target="#imageCarousel_1" data-slide-to="5"></li>
+                        </ol>
+                    
+                        <!-- Carousel inner slides -->
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <img src="/projects/function/image_c1_1.png" class="d-block w-100" alt="Image 1">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="/projects/function/image_c1_2.png" class="d-block w-100" alt="Image 2">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="/projects/function/image_c1_3.png" class="d-block w-100" alt="Image 3">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="/projects/function/image_c1_4.png" class="d-block w-100" alt="Image 4">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="/projects/function/image_c1_5.png" class="d-block w-100" alt="Image 5">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="/projects/function/image_c1_6.png" class="d-block w-100" alt="Image 6">
+                            </div>
+                        </div>
+                    
+                        <!-- Left and right controls with dark arrow icons -->
+                        <a class="carousel-control-prev" href="#imageCarousel_1" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon custom-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#imageCarousel_1" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon custom-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
+
+                    <p>.</p>
+                    <p>.</p>
+                    
+                    <div id="imageCarousel_2" class="carousel slide" data-ride="carousel">
+                        <!-- Indicators (optional) -->
+                        <ol class="carousel-indicators">
+                            <li data-target="#imageCarousel_2" data-slide-to="0" class="active"></li>
+                            <li data-target="#imageCarousel_2" data-slide-to="1"></li>
+                            <li data-target="#imageCarousel_2" data-slide-to="2"></li>
+                            <li data-target="#imageCarousel_2" data-slide-to="3"></li>
+                        </ol>
+                    
+                        <!-- Carousel inner slides -->
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <img src="/projects/function/image_c2_1.png" class="d-block w-100" alt="Image 1">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="/projects/function/image_c2_2.png" class="d-block w-100" alt="Image 2">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="/projects/function/image_c2_3.png" class="d-block w-100" alt="Image 3">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="/projects/function/image_c2_4.png" class="d-block w-100" alt="Image 4">
+                            </div>
+                        </div>
+                    
+                        <!-- Left and right controls with dark arrow icons -->
+                        <a class="carousel-control-prev" href="#imageCarousel_2" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon custom-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#imageCarousel_2" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon custom-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
+
+                    <p>.</p>
+                    <p>.</p>
+
+                </div>
+            </div>
+        </div>
+
+
+    </body>
+</html>

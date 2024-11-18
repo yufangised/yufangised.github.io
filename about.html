@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>about</title>
+        <!-- FONTS -->
+        <link href="https://fonts.googleapis.com/css2?family=Anonymous+Pro&display=swap" rel="stylesheet">
+        <!-- META -->
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="creative technologies">
+        <meta name="author" content="yufan wang">
+        <!-- STYLES -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <link rel="stylesheet" type="text/css" href="/css/style.css?rnd=132">
+        <link rel="shortcut icon" href="/src/favicon.ico">
+        <!-- SCRIPTS -->
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+        <!-- ANALYTICS -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-163543797-1"></script>
+    </head>
+    <body>
+       
+        <!-- Full-Screen Container -->
+        <div class="full-screen-container" id="background-container">
+            <!-- Content can go here if needed -->
+        </div>
+
+        <!-- Overlay Menu -->
+        <div class="menu">
+            <a href="/index.html" data-image="/images/default.png">YUFAN WANG</a>
+            <a>.</a>
+            <a href="/about.html" data-image="/images/default.png">about</a>
+            <a href="/contacts.html" data-image="/images/default.png">contacts</a>
+            <a>.</a>
+        </div>
+        <script>
+            // Get all menu links
+            const menuLinks = document.querySelectorAll('.menu a');
+            const backgroundContainer = document.getElementById('background-container');
+
+            // Add hover event listeners to change background
+            menuLinks.forEach(link => {
+                link.addEventListener('mouseover', function() {
+                    const imageUrl = this.getAttribute('data-image');
+                    backgroundContainer.style.backgroundImage = `url('${imageUrl}')`;
+                });
+
+                // Optionally, revert back to default when mouse leaves the menu item
+                link.addEventListener('mouseout', function() {
+                    backgroundContainer.style.backgroundImage = "url('/images/default.png')";
+                });
+            });
+        </script>
+
+        <div class="content-wrapper">
+            <div class="content-container">
+                <div class="col-md-9 col-sm-12 col-xs-12">
+                    <p></p>
+                    <p><b>technology innovation / design / art / craft</b></p>
+                    <p>Hello, I’m Yufan Wang, a creative technologist with a passion for blending technology and design to innovate and solve complex challenges. My background in [your educational background or relevant fields] and experience working with [technologies or tools you are skilled in] have equipped me to drive projects that bridge the gap between technical feasibility and creative vision.</p>
+                    <p>At [Company or Projects, if applicable], I’ve had the opportunity to lead [mention any significant projects or initiatives], where I focused on [briefly describe what you did and the impact made]. My approach often involves experimenting with cutting-edge technologies and methodologies to push the boundaries of what’s possible, creating engaging and transformative user experiences.</p>
+                    <p>I'm continuously seeking to expand my knowledge and apply my skills in new and innovative ways. Whether working independently or collaborating in diverse teams, I strive to deliver solutions that not only meet the needs of the project but also exceed expectations. I’m excited to connect with like-minded professionals and explore potential collaborations or opportunities.</p>
+                    <p>
+                        <b>skills</b>
+                    </p>
+                    <p>
+                        <b>design skills:</b> interaction design / concept design / play experience design / concept exploration
+                    </p>
+                    <p>
+                        <b>software: </b> c++ / c# / python / processing / openframeworks / unity 3D
+                    </p>
+                    <p>
+                        Arduino /  pi / electronics design / pcb design / 
+                    </p>
+                    <p>
+                        CAD / Rhino / 
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    </body>
+</html>

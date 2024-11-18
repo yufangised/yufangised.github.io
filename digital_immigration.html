@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>digital arts</title>
+        <!-- FONTS -->
+        <link href="https://fonts.googleapis.com/css2?family=Anonymous+Pro&display=swap" rel="stylesheet">
+        <!-- META -->
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="creative technologies">
+        <meta name="author" content="yufan wang">
+        <!-- STYLES -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <link rel="stylesheet" type="text/css" href="/css/style.css?rnd=132">
+        <link rel="shortcut icon" href="/src/favicon.ico">
+        <!-- SCRIPTS -->
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+        <!-- ANALYTICS -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-163543797-1"></script>
+        
+        
+    </head>
+    <body>
+       
+        <!-- Full-Screen Container -->
+        <div class="full-screen-container" id="background-container">
+            <!-- Content can go here if needed -->
+        </div>
+
+        <!-- Overlay Menu -->
+        <div class="menu">
+            <a href="/index.html" data-image="/images/default.png">YUFAN WANG</a>
+            <a>.</a>
+            <a href="/about.html" data-image="/images/default.png">about</a>
+            <a href="/contacts.html" data-image="/images/default.png">contacts</a>
+            <a>.</a>
+        </div>
+        <script>
+            // Get all menu links
+            const menuLinks = document.querySelectorAll('.menu a');
+            const backgroundContainer = document.getElementById('background-container');
+
+            // Add hover event listeners to change background
+            menuLinks.forEach(link => {
+                link.addEventListener('mouseover', function() {
+                    const imageUrl = this.getAttribute('data-image');
+                    backgroundContainer.style.backgroundImage = `url('${imageUrl}')`;
+                });
+
+                // Optionally, revert back to default when mouse leaves the menu item
+                link.addEventListener('mouseout', function() {
+                    backgroundContainer.style.backgroundImage = "url('/images/default.png')";
+                });
+            });
+        </script>
+
+        <div class="content-wrapper">
+            <div class="content-container">
+                <div class="col-md-9 col-sm-12 col-xs-12">
+                    <p>
+                        this is some introduction about this project.this is some introduction about this project.this is some introduction about this project.this is some introduction about this project.
+                    </p>
+                </div>
+                
+                
+                <div class="container mt-5">
+                    <!-- Bootstrap Slider to control batch size -->
+                    <div class="form-group">
+                        <label for="batchSizeSlider">speed:<span id="batchSizeValue">5</span></label>
+                        <input type="range" class="form-range" id="batchSizeSlider" min="1" max="100" value="5">
+                    </div>
+
+                    <button class="btn btn-primary mb-3" id="loadSVG1">Load SVG 1</button>
+                    <button class="btn btn-primary mb-3" id="loadSVG2">Load SVG 2</button>
+                    <button class="btn btn-primary mb-3" id="loadSVG3">Load SVG 3</button>
+                    <button class="btn btn-primary mb-3" id="loadSVG4">Load SVG 4</button>
+            
+                    <!-- Container to inject the SVG -->
+                    <div id="svgContainer" class="mt-4"></div>
+                </div>
+                
+                <script>
+                    let batchSize = 5;  // Default batch size
+                    let elements;  // To store the SVG elements
+            
+                    // Function to load the SVG
+                    function loadSVG(svgFileName) {
+                        const container = document.getElementById('svgContainer');
+                        
+                        // Clear the previous SVG if it exists
+                        container.innerHTML = '';  // Clears the container for reloading
+
+                        fetch(svgFileName)  // Load the specified SVG file
+                            .then(response => response.text())
+                            .then(svgData => {
+                                container.innerHTML = svgData;  // Inject the SVG data
+            
+                                // Select all elements in the SVG (e.g., paths, circles, rectangles, etc.)
+                                const svgElement = container.querySelector('svg');
+                                elements = svgElement.querySelectorAll('path, rect, circle, line, polygon, polyline');
+            
+                                // Hide all elements initially
+                                elements.forEach(el => el.classList.add('hidden'));
+
+                                // After loading the SVG, reveal elements
+                                revealElements();
+                            })
+                            .catch(error => console.error('Error loading SVG:', error));
+                    }
+            
+                    // Function to reveal elements based on the current batch size
+                    function revealElements() {
+                        elements.forEach((el, index) => {
+                            setTimeout(() => {
+                                for (let i = index * batchSize; i < (index + 1) * batchSize && i < elements.length; i++) {
+                                    elements[i].classList.remove('hidden');
+                                }
+                            }, index * 1);  // Delay for smoother transition
+                        });
+                    }
+            
+                    // Event listener to update batch size dynamically using the Bootstrap slider
+                    const batchSizeSlider = document.getElementById('batchSizeSlider');
+                    const batchSizeValueDisplay = document.getElementById('batchSizeValue');
+            
+                    batchSizeSlider.addEventListener('input', (event) => {
+                        batchSize = event.target.value;  // Update batch size
+                        batchSizeValueDisplay.textContent = batchSize;  // Display updated value
+                    });
+            
+                    // Add event listeners to the buttons to load different SVG files
+                    document.getElementById('loadSVG1').addEventListener('click', () => loadSVG('/projects/digital_immigration/test1.svg'));
+                    document.getElementById('loadSVG2').addEventListener('click', () => loadSVG('/projects/digital_immigration/test2.svg'));
+                    document.getElementById('loadSVG3').addEventListener('click', () => loadSVG('/projects/digital_immigration/test3.svg'));
+                    document.getElementById('loadSVG4').addEventListener('click', () => loadSVG('/projects/digital_immigration/test4.svg'));
+
+                </script>
+                
+            </div>
+        </div>
+
+
+    </body>
+</html>
