@@ -124,7 +124,7 @@ body {
     height: 100vh; /* Full height */
 }
 
-.content-container p {
+.content-container p,li {
     font-size: 12px;
     line-height: 1.6;
     color: #333;
