@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>yufan wang</title>
+        <!-- FONTS -->
+        <link href="https://fonts.googleapis.com/css2?family=Anonymous+Pro&display=swap" rel="stylesheet">
+        <!-- META -->
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="creative technologies">
+        <meta name="author" content="yufan wang">
+        <!-- STYLES -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <link rel="stylesheet" type="text/css" href="/css/style.css?rnd=132">
+        <link rel="shortcut icon" href="/src/favicon.ico">
+        <!-- SCRIPTS -->
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+        <!-- ANALYTICS -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-163543797-1"></script>
+    </head>
+    <body>
+       
+        <!-- Full-Screen Container -->
+        <div class="full-screen-container" id="background-container">
+            <!-- Content can go here if needed -->
+        </div>
+
+        <!-- Overlay Menu -->
+        <div class="menu">
+            <a href="/index.html" data-image="/images/default.png">YUFAN WANG</a>
+            <a>.</a>
+            <a href="/about.html" data-image="/images/about_main.jpg">about</a>
+            <a href="/contacts.html" data-image="/images/contact_main.jpg">contacts</a>
+            <a>.</a>
+            <!--
+            <a href="/get_screen.html" data-image="/images/the_big_project.png">the big project</a>
+            -->
+            <a href="/my_lego_touch.html" data-image="/images/my_lego_touch.png">my lego touch</a>
+            <!--
+            <a href="/lego_radio.html" data-image="/images/lego_radio.png">lego radio</a>
+            -->
+            <a href="/spinderi.html" data-image="/projects/spinderi/image_main.jpg">spinderi</a>
+            <a href="/digital_immigration.html" data-image="/projects/digital_immigration/image_main.png">digital_immigration</a>
+            <a href="/toy_painter.html" data-image="/images/toy_painter.png">toy painter</a>
+            <a href="/light_coder.html" data-image="/projects/light_coder/image_main.jpg">light coder</a>
+            <!--
+            <a href="/lego_structure.html" data-image="/images/lego_structure.png">lego structure</a>
+            -->
+            <a href="/conbricks.html" data-image="/projects/conbricks/image_main.jpg">conbricks</a>
+            <a href="/fireworks_latern.html" data-image="/projects/fireworks_latern/image_main.jpg">fireworks lantern</a>
+            <a href="/channel_of_mindfulness.html" data-image="/images/channel_of_mindfulness.png">channel of mindfulness</a>
+            <a href="/function.html" data-image="/projects/function/image_main.png">function</a>
+            <a href="/agumented_ears.html" data-image="/projects/agumented_ears/image_main.jpg">augmented ears</a>
+            <a href="/mutic box.html" data-image="/images/mutic_box.png">mutic box</a>
+            <a>.</a>
+            <a href="presentink.html" data-image="/images/presentink.png">PRESENT INK</a>
+            
+        </div>
+        <script>
+            // Get all menu links
+            const menuLinks = document.querySelectorAll('.menu a');
+            const backgroundContainer = document.getElementById('background-container');
+
+            // Add hover event listeners to change background
+            menuLinks.forEach(link => {
+                link.addEventListener('mouseover', function() {
+                    const imageUrl = this.getAttribute('data-image');
+                    backgroundContainer.style.backgroundImage = `url('${imageUrl}')`;
+                });
+
+                // Optionally, revert back to default when mouse leaves the menu item
+                link.addEventListener('mouseout', function() {
+                    backgroundContainer.style.backgroundImage = "url('/images/default.png')";
+                });
+            });
+        </script>
+    </body>
+</html>
