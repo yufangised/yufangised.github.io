@@ -1,17 +1,13 @@
 let particles = [];
-let colors;
+let palette = []; // Array to store three random colors
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
 
   // Define three random colors
-  colors = [
-    color(random(255), random(255), random(255)),
-    color(random(255), random(255), random(255)),
-    color(random(255), random(255), random(255))
-  ];
-
-  for (let i = 0; i < 200; i++) {
+  palette = generateDistinctColors(3);
+  
+  for (let i = 0; i < 400; i++) {
     particles.push(new Particle());
   }
 }
@@ -33,7 +29,7 @@ class Particle {
     this.size = random(5, 15);
 
     // Assign a random color from the predefined set
-    this.color = random(colors);
+    this.color = random(palette);
   }
 
   update() {
@@ -72,3 +68,33 @@ class Particle {
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
 }
+
+// Function to generate 'n' distinct RGB colors
+function generateDistinctColors(n) {
+    let colors = [];
+    while (colors.length < n) {
+      let c = color(random(100, 255), random(100, 255), random(100, 255)); // Generate a random bright color
+      let isDistinct = true;
+  
+      // Check against existing colors in the palette
+      for (let existing of colors) {
+        if (colorDistance(c, existing) < 150) { // Ensure a minimum distance of 150
+          isDistinct = false;
+          break;
+        }
+      }
+  
+      if (isDistinct) colors.push(c); // Add the color if sufficiently distinct
+    }
+    return colors;
+}
+  
+// Calculate the Euclidean distance between two colors
+function colorDistance(c1, c2) {
+    let r1 = red(c1), g1 = green(c1), b1 = blue(c1);
+    let r2 = red(c2), g2 = green(c2), b2 = blue(c2);
+    return dist(r1, g1, b1, r2, g2, b2);
+}
+
+
+

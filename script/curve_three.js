@@ -7,9 +7,7 @@ function setup() {
   colorMode(RGB, 255); // Set the color mode to RGB
   
   // Generate a palette of three distinct random colors
-  for (let i = 0; i < 3; i++) {
-    palette.push(color(random(100, 255), random(100, 255), random(100, 255)));
-  }
+  palette = generateDistinctColors(3);
 
   // Create multiple curves with random properties
   initializeCurves();
@@ -25,6 +23,11 @@ function draw() {
     curve.update();
     curve.display();
   }
+}
+
+function windowResized() {
+    resizeCanvas(windowWidth, windowHeight);
+    initializeCurves(); // Reinitialize curves on window resize
 }
 
 function initializeCurves() {
@@ -122,9 +125,31 @@ class SmoothCurve {
   }
 }
 
-function windowResized() {
-  resizeCanvas(windowWidth, windowHeight);
-  initializeCurves(); // Reinitialize curves on window resize
+// Function to generate 'n' distinct RGB colors
+function generateDistinctColors(n) {
+    let colors = [];
+    while (colors.length < n) {
+      let c = color(random(100, 255), random(100, 255), random(100, 255)); // Generate a random bright color
+      let isDistinct = true;
+  
+      // Check against existing colors in the palette
+      for (let existing of colors) {
+        if (colorDistance(c, existing) < 150) { // Ensure a minimum distance of 150
+          isDistinct = false;
+          break;
+        }
+      }
+  
+      if (isDistinct) colors.push(c); // Add the color if sufficiently distinct
+    }
+    return colors;
+}
+  
+// Calculate the Euclidean distance between two colors
+function colorDistance(c1, c2) {
+    let r1 = red(c1), g1 = green(c1), b1 = blue(c1);
+    let r2 = red(c2), g2 = green(c2), b2 = blue(c2);
+    return dist(r1, g1, b1, r2, g2, b2);
 }
 
 

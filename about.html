@@ -19,67 +19,171 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
         <!-- ANALYTICS -->
         <script async src="https://www.googletagmanager.com/gtag/js?id=UA-163543797-1"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.min.js"></script>
     </head>
     <body>
-       
+        
         <!-- Full-Screen Container -->
+        
         <div class="full-screen-container" id="background-container">
-            <!-- Content can go here if needed -->
         </div>
+        
 
         <!-- Overlay Menu -->
+        
         <div class="menu">
             <a href="/index.html" data-image="/images/default.png">YUFAN WANG</a>
-            <a>.</a>
-            <a href="/about.html" data-image="/images/default.png">about</a>
-            <a href="/contacts.html" data-image="/images/default.png">contacts</a>
-            <a>.</a>
         </div>
-        <script>
-            // Get all menu links
-            const menuLinks = document.querySelectorAll('.menu a');
-            const backgroundContainer = document.getElementById('background-container');
-
-            // Add hover event listeners to change background
-            menuLinks.forEach(link => {
-                link.addEventListener('mouseover', function() {
-                    const imageUrl = this.getAttribute('data-image');
-                    backgroundContainer.style.backgroundImage = `url('${imageUrl}')`;
-                });
-
-                // Optionally, revert back to default when mouse leaves the menu item
-                link.addEventListener('mouseout', function() {
-                    backgroundContainer.style.backgroundImage = "url('/images/default.png')";
-                });
-            });
-        </script>
 
         <div class="content-wrapper">
             <div class="content-container">
                 <div class="col-md-9 col-sm-12 col-xs-12">
-                    <p></p>
-                    <p><b>technology innovation / design / art / craft</b></p>
-                    <p>Hello, I’m Yufan Wang, a creative technologist with a passion for blending technology and design to innovate and solve complex challenges. My background in [your educational background or relevant fields] and experience working with [technologies or tools you are skilled in] have equipped me to drive projects that bridge the gap between technical feasibility and creative vision.</p>
-                    <p>At [Company or Projects, if applicable], I’ve had the opportunity to lead [mention any significant projects or initiatives], where I focused on [briefly describe what you did and the impact made]. My approach often involves experimenting with cutting-edge technologies and methodologies to push the boundaries of what’s possible, creating engaging and transformative user experiences.</p>
-                    <p>I'm continuously seeking to expand my knowledge and apply my skills in new and innovative ways. Whether working independently or collaborating in diverse teams, I strive to deliver solutions that not only meet the needs of the project but also exceed expectations. I’m excited to connect with like-minded professionals and explore potential collaborations or opportunities.</p>
+                    <p><b>ABOUT</b></p>
+                    <br>
+
                     <p>
-                        <b>skills</b>
+                        Hello, my name is Yufan Wang. I see myself as a multidisciplinary creator, working across technology, design, and art to craft ideas into reality.
+                        <br>
+                        <br>
+                        From an <b>EARLY AGE</b>, play for me was mainly about crafting and hacking—making my own toys and experimenting with whatever materials and tools I could find. 
+                        At the same time, I dedicated myself to practicing classic Chinese calligraphy and painting, nurturing both skill and an early passion for artistic expression. 
+                        Looking back, these childhood experiences planted the seeds for my journey and shaped the way how I create today.
+                        <br>
+                        <br>
+                        Later, I pursued my <b>EDUCATION</b> in Electrical and Electronics Engineering, completing both BA and MA studies in the field. 
+                        This provided me with a strong technical foundation, but during my studies, I discovered a growing passion for design. 
+                        So after my master study, I joined a course in Industrial Design, where I gained a deep understanding of design thinking and the design process.
+                        I then specialized in Interaction Design, a field where I could merge my technical expertise with a user-centered design approach.
+                        Prototyping became my most powerful tool—thinking by making is how I bring ideas to life and test design solutions.
+                        <br>
+                        <br>
+                        My <b>PROFESSIONAL CAREER</b> began as a concept designer in the front-end innovation department at LEGO, where I focused on creating and developing new play experiences for kids. 
+                        Working closely with children and observing their creativity and imagination deeply influenced my approach to design, helping me understand the joy and curiosity that drive play. 
+                        Over time, playfulness became second nature in my works.
+                        In recent years, my role at LEGO has shifted toward hardware innovation, where I explore play potential from a technology-driven approach, 
+                        experimenting with new sensory technologies and cutting-edge tools to create immersive, interactive prototypes and experiences. 
+                        These projects often bridge the digital and physical worlds, pushing the boundaries of how technology could shape the LEGO paly in the futrue.
+                        <br>
+                        <br>
+                        <b>IN PARALLEL</b> with my career at LEGO, I started to explore my long-seeded passion for <b>ART</b>. In 2015, I establish my own art studio-PRESENT INK, 
+                        initially experimenting with visual directions in contemporary calligraphy and later discovering my unique visual language through collage making. 
+                        This artistic practice has become a vital part of my creative process, feeding back into my other work and inspiring me to seek deeper meaning and aesthetic qualities in everything I create.
+                        <br>
+                        <br>
+                        Technology, design, and art—these are the three pillars that bring meaning to my creations. 
+                        Today, I continue to explore emerging technologies, uncover new design opportunities, and push the boundaries of my art practice. 
+                        The future is not certain, but I embrace the unknown, staying open to new possibilities and evolving through my creative journey.
                     </p>
-                    <p>
-                        <b>design skills:</b> interaction design / concept design / play experience design / concept exploration
-                    </p>
-                    <p>
-                        <b>software: </b> c++ / c# / python / processing / openframeworks / unity 3D
-                    </p>
-                    <p>
-                        Arduino /  pi / electronics design / pcb design / 
-                    </p>
-                    <p>
-                        CAD / Rhino / 
-                    </p>
+                    <br>
+
+                    <hr>
+
+                    <p><b>SKILL SET</b></p>
+
+                    <p>Design Skill</p>
+                    <ul>
+                        <li><b>Creative Direction:</b> Driving initiatives and steering projects from vision to delivery</li>
+                        <li><b>Ideation and conceptualization:</b> generating innovative concepts and solutions through brainstorming, sketching, and strategic thinking.</li>
+                        <li><b>Iterative design processes:</b> translating user testing learnings into actionable improvements at different stage of the project.</li>
+                        <li><b>Agile Collaboration:</b> Strong team player in both remote and physical settings, collaborating with multifunctional teams to drive innovation in fast-paced, dynamic workflows.</li>
+                    </ul>
+        
+                    <p>Prototyping</p>
+                    <ul>
+                        <li><b>Native Maker:</b> Thinking by making is at the heart of how I approach challenges. With over 10 years of hands-on experience, I craft prototypes to explore ideas, validate concepts through user testing, and effectively communicate ideas to stakeholders.</li>
+                        <li><b>Comprehensive Prototyping Expertise:</b> Experienced in crafting prototypes across all levels of fidelity and scale—from rapid paper mockups to polished, functional concept demos, and from tiny units that fit within a 2x2 LEGO brick to immersive installations that fill an entire room.</li>
+                        <li><b>Tech-Driven Prototyping:</b> Experienced in building exploratory prototypes to investigate the potential of emerging technologies, uncover new design opportunities, and push the boundaries of innovation.</li>
+                    </ul>
+
+                    <p>Hardware and Electronics</p>
+                    <ul>
+                        <li><b>Embedded Platforms:</b> Proficient in Arduino, Adafruit, Raspberry Pi and similar platforms, with expertise in integrating sensors and developing functional electronic prototypes.</li>
+                        <li><b>PCB Design:</b> Skilled in designing PCBs, from quick knockoff boards to fully custom designs, including creating footprints, schematics, and layouts tailored to specific needs.</li>
+                        <li><b>Assembly and Debugging:</b> Skilled in hand soldering, SMD stencil assembly, and experienced in diagnosing and resolving hardware issues using lab equipment.</li>
+                    </ul>
+
+                    <p>Programming</p>
+                    <ul>
+                        <li><b>Embedded Programming:</b> Proficient in C++ and Python for embedded platforms such as Arduino and Raspberry Pi, creating physical protoypes.</li>
+                        <li><b>Visual Programming:</b> Experienced in Processing, p5.js, and OpenFrameworks, creating dynamic, interactive visualizations.</li>
+                        <li><b>Game Engine:</b> Fluent in C# development using Unity 3D to make interactive experience and prototypes</li>
+                        <li><b>Web Development:</b> Skilled in HTML & CSS to create personal website</li>
+                    </ul>
+
+                    <p>Software</p>
+                    <ul>
+                        <li><b>Graphic Design:</b> Skilled in Adobe Creative Suite, with frequent use of Photoshop and Illustrator</li>
+                        <li><b>Video Editing:</b> Skilled in Premiere Pro, After Effects, and iMovie for concept video editing</li>
+                        <li><b>CAD Modeling:</b> Experienced in Rhino for mechanical function design and prototype enclosure design.</li> 
+                        <li><b>PCB Design:</b> Proficient in Fusion 360 and Eagle for PCB design and manufacturer.</li>
+                        <li><b>Online Collaboration:</b> Familar with Miro and Figma for brainstorming and collaborative design processes in remote and hybrid environments.</li>
+
+                    </ul>
+
+                    <p>Workshop and Fabrication</p>
+                    <ul>
+                        <li><b>Maker Space:</b> Skilled in using 3D printers, laser cutters, and a variety of other maker space machines and tools for fabrication and prototyping.</li>
+                        <li><b>Wood Workshop:</b> Skilled in operating woodworking machines such as band saws, table saws, routers, planers, and sanders for woodwork crafting.</li>
+                    </ul>
+                    <br>
+                    <hr>
+                    <p>EXPERIENCE</p>
+
+                    <p>2015/07 - current: Artist | <a href="presentink.html">PRESENT INK</a></p>
+                    <p>2013/08 - current: LEGO System </p>
+                    <ul>
+                        <li><b>2022-current: LEGO Creative Play Lab | Play Invention Hardware | Sr. Play Inventer</b><br>
+                            Focused on hardware innovation, exploring play potential through a technology-driven approach. Leveraged new sensory technologies and cutting-edge tools to design and develop immersive, interactive prototypes and play experiences.
+                        </li>
+                        <li><b>2019-2022: LEGO Creative Play Lab | Digital Play Designer / Sr. Digital Play Designer</b><br>
+                            Focused on platform innovation and developing interactive play experiences to create never-seen-before LEGO play.
+                        </li>
+                        <li><b>2017-2019: LEGO Creative Play Lab | Electronics Play Designer</b><br>
+                            Specialized in creating various interactive play prototypes to support multiple LEGO franchises. Built to explore idea, showcase new concepts and gather user insights through kids test.
+                        </li>
+                        <li><b>2016-2017: LEGO PG1 Front-end | Concept Designer</b><br>
+                            Contributed as part of the development team for the next big bang play theme for girls, with a focus on digital and interactive experiences. Created and tested prototypes to explore concepts and gather user insights.
+                        </li>
+                        <li><b>2013-2016: LEGO Future Lab | Concept Designer</b><br>
+                            Creating LEGO play experiences that merge physical play with digital gamification and interaction. This includes bridging the physical and digital by scanning LEGO bricks and models using phones and tablets, and exploring AR technology to enhance and expand lego building experience.
+                        </li>
+
+                    </ul>
+                    <p>2013/03 - 2013/08: Freelancing based in Copenhagen | Interaction Design</p>
+                    <p>2012/06 - 2012/12: Researcher Trainee | <a href="https://ciid.dk">Copenhagen Institute of Interaction Design</a></p>
+                    <p>2012/02 - 2012/04: Interaction Design internship | HCI Design team | <a href="https://www.microsoft.com/en-us/research/lab/microsoft-research-asia/">Microsoft Research Asia(Beijing)</a></p>
+                    <p>2011/09 - 2011/11: UI design for mobile application | Beijing Wali Network Technology Co.Ltd</p>
+
+                    <hr>
+                    <p>EDUCATION</p>
+
+                    <p><b>2011/01 - 2011/12:</b> Interaction Design | <a href="https://ciid.dk">Copenhagen Institute of Interaction Design</a> | Copenhagen | Danmark</p>
+                    <p><b>2009/09 - 2010/06:</b> Industrial Design Introduction | <a href="https://www.umu.se/en/umea-institute-of-design/">Umeå Institute of Design</a> | Umeå | Sweden</p>
+                    <p><b>2007/09 - 2009/07:</b> MA Electrical and Electronics Engineering | <a href="https://en.dlut.edu.cn/">Dalian University of Technology</a> | Dalian | China</p>
+                    <p><b>2003/09 - 2007/07:</b> BA Electrical and Electronics Engineering | <a href="https://en.dlut.edu.cn/">Dalian University of Technology</a> | Dalian | China</p>
+
+                    
+
+                    
+                    <hr>
+                    <p><b>PATENT</b></p>
+                    <p><a href="https://patents.google.com/patent/EP3806970B1/en?inventor=yufan+wei+wang&oq=yufan+wei+wang+">A modular toy construction system with interactive toy construction elements</a></p>
+                    <p><a href="https://patents.google.com/patent/US20240082749A1/en?inventor=yufan+wei+wang&oq=yufan+wei+wang+">Rechargeable interactive toy</a></p>
+                    <p><a href="https://patents.google.com/patent/EP3917634A1/en?inventor=yufan+wei+wang&oq=yufan+wei+wang+">Toy system having a contactless energy transfer system</a></p>
+                    <p><a href="https://patents.google.com/patent/WO2024223796A1/en?inventor=yufan+wei+wang&oq=yufan+wei+wang+">Toy construction set</a></p>
+                    
+                    <hr>
+                    <p><b>LANGUAGE</b></p>
+                    <p><b>Chinese:</b> Native proficiency</p>
+                    <p><b>English:</b> Full professional proficiency</p>
+                    <p></p><b>Danish:</b> Elementary proficiency</p>
+
+
                 </div>
             </div>
         </div>
+
+        
 
     </body>
 </html>

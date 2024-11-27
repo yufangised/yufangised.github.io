@@ -1,6 +1,6 @@
 let edgeDots = [];
 let centerDot;
-let colors = [];
+let palette = []; // Array to store three random colors
 let edgeDotColors = ["red", "green", "blue"]; // Colors for edge dots. For debug use.
 let centerNoiseX, centerNoiseY;
 let noiseIncrement = 0.0005; // Adjust for smoother or more erratic motion
@@ -16,9 +16,7 @@ function setup() {
   centerNoiseY = random(1000); // Random starting point for Y noise
 
   // Generate random colors for the sections
-  for (let i = 0; i < 3; i++) {
-    colors.push(color(random(255), random(255), random(255))); // Random RGB color
-  }
+  palette = generateDistinctColors(3);
 
   // Generate the edge dots initially, ensuring no two dots are on the same edge
   while (edgeDots.length < 3) {
@@ -66,7 +64,7 @@ function draw() {
    moveCenterDot();
   // Draw the sections based on dynamic edge dot positions
   for (let i = 0; i < 3; i++) {
-    fill(colors[i]);
+    fill(palette[i]);
     beginShape();
     let polygonPoints = getPolygonPoints(i);
 
@@ -262,3 +260,33 @@ function addCornersBetween(edgeDot1, edgeDot2, polygonPoints, corners) {
   polygonPoints.push(edgeDot2);
 
 }
+
+// Function to generate 'n' distinct RGB colors
+function generateDistinctColors(n) {
+  let colors = [];
+  while (colors.length < n) {
+    let c = color(random(100, 255), random(100, 255), random(100, 255)); // Generate a random bright color
+    let isDistinct = true;
+
+    // Check against existing colors in the palette
+    for (let existing of colors) {
+      if (colorDistance(c, existing) < 150) { // Ensure a minimum distance of 150
+        isDistinct = false;
+        break;
+      }
+    }
+
+    if (isDistinct) colors.push(c); // Add the color if sufficiently distinct
+  }
+  return colors;
+}
+
+// Calculate the Euclidean distance between two colors
+function colorDistance(c1, c2) {
+  let r1 = red(c1), g1 = green(c1), b1 = blue(c1);
+  let r2 = red(c2), g2 = green(c2), b2 = blue(c2);
+  return dist(r1, g1, b1, r2, g2, b2);
+}
+
+
+
