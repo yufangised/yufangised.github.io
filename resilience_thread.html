@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>resilience thread</title>
+        <!-- FONTS -->
+        <link href="https://fonts.googleapis.com/css2?family=Anonymous+Pro&display=swap" rel="stylesheet">
+        <!-- META -->
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="creative technologies">
+        <meta name="author" content="yufan wang">
+        <!-- STYLES -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <link rel="stylesheet" type="text/css" href="/css/style.css?rnd=132">
+        <link rel="shortcut icon" href="/src/favicon.ico">
+        <!-- SCRIPTS -->
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+        <!-- ANALYTICS -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-163543797-1"></script>
+    </head>
+    <body>
+       
+        <!-- Full-Screen Container -->
+        <div class="full-screen-container" id="background-container">
+            <!-- Content can go here if needed -->
+        </div>
+
+        <!-- Overlay Menu -->
+        <div class="menu">
+            <a href="/index.html" data-image="/images/default.png">YUFAN WANG</a>
+        </div>
+        <script>
+            // Get all menu links
+            const menuLinks = document.querySelectorAll('.menu a');
+            const backgroundContainer = document.getElementById('background-container');
+
+            // Add hover event listeners to change background
+            menuLinks.forEach(link => {
+                link.addEventListener('mouseover', function() {
+                    const imageUrl = this.getAttribute('data-image');
+                    backgroundContainer.style.backgroundImage = `url('${imageUrl}')`;
+                });
+
+                // Optionally, revert back to default when mouse leaves the menu item
+                link.addEventListener('mouseout', function() {
+                    backgroundContainer.style.backgroundImage = "url('/images/default.png')";
+                });
+            });
+        </script>
+
+        <div class="content-wrapper">
+            <div class="content-container">
+                <div class="col-md-9 col-sm-12 col-xs-12">
+                    <p>
+                        <b> RESILIENCE THREAD / 2020 / Spinderihallerne</b>
+                    </p>
+                    <br>
+                    <p>
+                        This project was a commission work from Spinderihallerne, which operates as a public sector of Vejle Kommune-a municipality in Denmark and a member of the global Resilient Cities Network. 
+                        Spinderihallerne was an old factory known for producing cotton threads and nowadays it has been repurposed into a vibrant hub for design innovation, culture and community activities. 
+                        Spinderihallerne approached me to design a permanent experience/installation for the house, that would server as their resilience statement to communicate internally and externally for visitors. 
+                        <br>
+                    </p>
+                        Although the brief was open, it outlined a few key elements to include:
+                        <br>
+                        <ul>
+                            <li>Addressing Vejle’s challenges with water management, a critical issue tied to the city’s resilience strategy.</li>
+                            <li>Reflecting sustainability as a core value.</li>
+                            <li>Creating a wall space dedicated to honoring Vejle heroes—individuals who have made a positive impact on the city and its community.</li>
+
+                        </ul> 
+                        <br>
+                    <p>
+                        This project was particularly special to me because it was an art project with profound meaning. 
+                        It wasn’t just about creating something visually appealing; 
+                        it was about weaving together the threads of history, sustainability, and community to craft an experience that deeply resonates with Vejle’s culture identity.
+                    </p>
+
+                    <p>
+                        I’d like to give a special thanks to my friend Rina for joining me on this fun and challenging journey during the Covid period. 
+                        Her contribution played a huge part in bringing everything together.
+                    </p>
+                    <br>
+
+                    <div id="imageCarousel_concept" class="carousel slide" data-ride="carousel">
+                        <!-- Indicators (optional) -->
+                        <ol class="carousel-indicators">
+                            <li data-target="#imageCarousel_concept" data-slide-to="0" class="active"></li>
+                            <li data-target="#imageCarousel_concept" data-slide-to="1"></li>
+                            
+                        </ol>
+                    
+                        <!-- Carousel inner slides -->
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <img src="/projects/resilience_thread/concept_1.jpg" class="d-block w-100" alt="Image 1">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="/projects/resilience_thread/concept_2.jpg" class="d-block w-100" alt="Image 2">
+                            </div>
+                        </div>
+                    
+                        <!-- Left and right controls with dark arrow icons -->
+                        <a class="carousel-control-prev" href="#imageCarousel_concept" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon custom-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#imageCarousel_concept" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon custom-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
+                    <br>
+                    <hr>
+
+                    <p>
+                        <b>Experience</b>
+                    </p>
+                    <p>
+                        We presented Spinderihallerne with an experience journey that includes three major parts: Threat, Reflection, and Impact.
+                        <ul>
+                            <li>
+                                <b>Threat:</b> The experience begins with a staircase that we transformed into a visual timeline, mapping the historical data of rising sea levels. 
+                                Vejle faces serious water-related challenges, including flooding and the impacts of global warming. As visitors walk up the stairs, 
+                                they witness the steady rise of sea levels over the years, creating an immediate and impactful connection to the gravity of the issue.
+                            </li>
+                            <br>
+
+                            <li>
+                                <b>Reflection:</b> After walking through the "problem" in the Threat section, visitors enter a hallway designed to create a reflective atmosphere. 
+                                Inspired by the design and symbolism of church spaces, this area encourages visitors to pause and think deeply about the environmental challenges we are facing nowadays. 
+                                <br>
+                                <br>
+                                Two major touchpoints define this space: the rose window light and the alert bell. 
+                                The rose window light, positioned above the staircase, emits a slow-changing glow, shifting in color so sultal they are almost unnoticed at first. 
+                                Over time, visitors begin to realize the change, symbolizing the often unseen but significant environmental shifts caused by global warming.
+                                <br>
+                                <br>
+                                The alert bell, in contrast, demands attention when visitors pull the string.
+                                It plays a series of sounds that blend elements of natural disasters such as icebergs melting, forest fires, and other environmental crises. 
+                                <br>
+                                <br>
+                                Together, these elements create a layered experience, encouraging both subtle awareness and urgent reflection on the state of our planet.
+                             </li>
+                             <br>
+                             <li>
+                                <b>Impact:</b> As the experience continues, visitors enter the large meeting room—Bomuldsloftet, which serves as the Impact area. 
+                                Here, they explore how individuals in Vejle are creating meaningful changes to align with the city’s resilient strategy.
+                                <br>
+                                <br>
+                                The Bomuldsloftet meeting room is designed to be both a workspace and a source of inspiration, encouraging visitors to take positive actions. 
+                                One side of the room features a wall we transformed to highlight Vejle’s heroes. 
+                                We created large collage portraits of these individuals using recycled plastic, emphasizing the theme of sustainability. 
+                                We also used a single continuous black thread to outline Vejle’s iconic landmarks as the background of the portraits. 
+                                This thread not only serves as a symbolic connection to the city but also reflects the history of Spinderihallerne as a thread factory.
+                                <br>
+                                <br>
+                                Visitors can read the stories of these heroes and learn about their contributions to the community. 
+                                The journey concludes with a positive and hopeful message, showing the impact that people can have when they take action.
+                             </li>
+                        </ul>
+                    </p>
+
+                    
+
+                    <br>
+               
+                    <p>
+                        <b>Experience Walk Through</b>
+                    </p>
+                        
+                    <br>
+
+                    <div class="embed-responsive embed-responsive-16by9">
+                        <video class="embed-responsive-item" controls>
+                            <source src="/projects/resilience_thread/walk_through.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    <br>
+                    <hr>
+                    <br>
+                    <p><b>The Staircase</b></p>
+                    <br> 
+                    <p>
+                        On the first staircase, we mapped historical sea level data from 1920 to 2020, showing how the sea levels have risen over time. 
+                        On the second staircase, we displayed predicted sea level data, illustrating the potential future impact if no actions are taken. 
+                    </p>
+
+                    <div id="imageCarousel_stairs" class="carousel slide" data-ride="carousel">
+                        <!-- Indicators (optional) -->
+                        <ol class="carousel-indicators">
+                            <li data-target="#imageCarousel_stairs" data-slide-to="0" class="active"></li>
+                            <li data-target="#imageCarousel_stairs" data-slide-to="1"></li>
+                            <li data-target="#imageCarousel_stairs" data-slide-to="2"></li>
+                            
+                        </ol>
+                    
+                        <!-- Carousel inner slides -->
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <img src="/projects/resilience_thread/stairs_1.jpg" class="d-block w-100" alt="Image 1">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="/projects/resilience_thread/stairs_2.jpg" class="d-block w-100" alt="Image 2">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="/projects/resilience_thread/stairs_3.jpg" class="d-block w-100" alt="Image 3">
+                            </div>
+                        </div>
+                    
+                        <!-- Left and right controls with dark arrow icons -->
+                        <a class="carousel-control-prev" href="#imageCarousel_stairs" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon custom-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#imageCarousel_stairs" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon custom-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
+    
+                    <br>
+                    <hr>
+                    <br>
+                    <p><b>The Rose Window Light</b></p>
+
+                    <p>
+                        Changes often happen gradually, step by step, making them hard to notice at first. 
+                        This mirrors how human activities influence the environment—small actions that we often overlook can accumulate into significant impacts over time.
+                        <br>
+                        <br>
+                        If you stare at the light, its color change is almost imperceptible. 
+                        However, after a few minutes, when you return and look again, you’ll notice a dramatic shift in color, showing how small changes can lead to big differences.
+                        <br>
+                        <br>
+                        There are four videos available, each showing the light’s color shifting at different speeds: x1, x10, x50, and x100. 
+                        The x1 speed video takes 40 minutes, represents the true experience as you would observe on-site. If you don’t have the patience to watch the gradual transformation, 
+                        the x100 speed video provides a quick overview, showing the full color shift in a fraction of the time.
+                    </p>
+                    
+                    <div class="embed-responsive embed-responsive-16by9">
+                        <iframe id="rose_window" class="embed-responsive-item" src="https://player.vimeo.com/video/1038952635" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
+                    </div>
+                    
+                    <div class="controls text-center mt-3">
+                        <button class="btn btn-primary mx-1" onclick="loadVideo('1038952635')">x1</button>
+                        <button class="btn btn-primary mx-1" onclick="loadVideo('1031654851')">x10</button>
+                        <button class="btn btn-primary mx-1" onclick="loadVideo('1030807689')">x50</button>
+                        <button class="btn btn-primary mx-1" onclick="loadVideo('1030801758')">x100</button>
+                    </div>
+                    
+                    <script>
+                        function loadVideo(videoId) {
+                            const iframe = document.getElementById('rose_window');
+                            iframe.src = `https://player.vimeo.com/video/${videoId}?autoplay=1`;
+                        }
+                    </script>
+
+                    <br>
+                    <hr>
+                    <br>
+                    <p><b>The Alert Bell</b></p>
+                    <p>
+                        The bell was constructed primarily from recycled materials. 
+                        The metal body was repurposed from my broken washing machine at home, while all the wood was collected from Vejle’s recycling center, then routed and stacked together to form the structure.
+                        <br>
+                        <br>
+                        Rina took the lead on the sound design for the bell, creating five distinct sounds. You could the buttons below to play the sounds and simulate the experience as it would be on-site.
+                        <br>
+                    </p>
+
+                    <div id="imageCarousel_bell" class="carousel slide" data-ride="carousel">
+                        <!-- Indicators (optional) -->
+                        <ol class="carousel-indicators">
+                            <li data-target="#imageCarousel_bell" data-slide-to="0" class="active"></li>
+                            <li data-target="#imageCarousel_bell" data-slide-to="1"></li>
+                            
+                        </ol>
+                    
+                        <!-- Carousel inner slides -->
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <img src="/projects/resilience_thread/bell_1.jpg" class="d-block w-100" alt="Image 1">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="/projects/resilience_thread/bell_2.jpg" class="d-block w-100" alt="Image 2">
+                            </div>
+                        </div>
+                    
+                        <!-- Left and right controls with dark arrow icons -->
+                        <a class="carousel-control-prev" href="#imageCarousel_bell" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon custom-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#imageCarousel_bell" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon custom-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+
+                        <p>.</p>
+                        <p>.</p>
+
+
+                    </div>
+
+                    <div class="audio-player">
+                        <!-- The audio element -->
+                        <audio id="audioPlayer" controls>
+                            <source id="audioSource" src="/projects/resilience_thread/bell_iceberg.wav" type="audio/wav">
+                            Your browser does not support the audio element.
+                        </audio>
+                    </div>
+                    
+                    <div class="controls text-center mt-3">
+                        <!-- Buttons to load and play different audio files -->
+                        <button class="btn btn-primary mx-1" onclick="playAudio('/projects/resilience_thread/bell_iceberg.wav')">iceberg</button>
+                        <button class="btn btn-primary mx-1" onclick="playAudio('/projects/resilience_thread/bell_earthquake.wav')">earthquake</button>
+                        <button class="btn btn-primary mx-1" onclick="playAudio('/projects/resilience_thread/bell_fire.wav')">fire</button>
+                        <button class="btn btn-primary mx-1" onclick="playAudio('/projects/resilience_thread/bell_rain.wav')">rain</button>
+                        <button class="btn btn-primary mx-1" onclick="playAudio('/projects/resilience_thread/bell_tsunami.wav')">tsumani</button>
+                    </div>
+                    
+                    <script>
+                        // Function to load and play the selected audio file
+                        function playAudio(audioPath) {
+                            const audioPlayer = document.getElementById('audioPlayer');
+                            const audioSource = document.getElementById('audioSource');
+                            
+                            // Update the audio source
+                            audioSource.src = audioPath;
+                    
+                            // Reload the audio player to apply the new source
+                            audioPlayer.load();
+                    
+                            // Play the audio
+                            audioPlayer.play();
+                        }
+                    </script>
+                    
+                    <br>
+                    <hr>
+                    <br>
+
+                    <p><b>The Impact Wall</b></p>
+                    In 2019, the artist group Numen was invited to created an art installation in Spinderihallerne. 
+                    The installation used plastic tape to construct a large structure that people could enter and experience from the inside. 
+                    While the work was widely appreciated, it left behind a significant challenge: Spinderihallerne had to recycle all the plastic tape leftovers.
+                    <br>
+                    <br>
+                    I stepped in and volunteered to upcycle the leftover plastic, transforming it into new artworks. 
+                    I initially did a series of experimental paintings using the plastic as canvas, but even after that, a large amount of plastic remained.
+                    <br>
+                    <br>
+                    When this project came up, I saw a perfect opportunity to repurpose the tape leftovers into collage portraits. 
+                    The results were stunning and aligned beautifully with the project’s core values of sustainability and environmental responsibility.
+                    <br>
+                    <br>
+
+
+                    <div id="imageCarousel_wall" class="carousel slide" data-ride="carousel">
+                        <!-- Indicators (optional) -->
+                        <ol class="carousel-indicators">
+                            <li data-target="#imageCarousel_wall" data-slide-to="0" class="active"></li>
+                            <li data-target="#imageCarousel_wall" data-slide-to="1"></li>
+                            <li data-target="#imageCarousel_wall" data-slide-to="2"></li>
+                            <li data-target="#imageCarousel_wall" data-slide-to="3"></li>
+                            <li data-target="#imageCarousel_wall" data-slide-to="4"></li>
+                            <li data-target="#imageCarousel_wall" data-slide-to="5"></li>
+                            <li data-target="#imageCarousel_wall" data-slide-to="6"></li>
+                            <li data-target="#imageCarousel_wall" data-slide-to="7"></li>
+                            
+                        </ol>
+                    
+                        <!-- Carousel inner slides -->
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <img src="/projects/resilience_thread/wall_1.jpg" class="d-block w-100" alt="Image 1">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="/projects/resilience_thread/wall_2.jpg" class="d-block w-100" alt="Image 2">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="/projects/resilience_thread/wall_3.jpg" class="d-block w-100" alt="Image 3">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="/projects/resilience_thread/wall_4.jpg" class="d-block w-100" alt="Image 4">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="/projects/resilience_thread/wall_5.jpg" class="d-block w-100" alt="Image 5">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="/projects/resilience_thread/wall_6.jpg" class="d-block w-100" alt="Image 6">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="/projects/resilience_thread/wall_7.jpg" class="d-block w-100" alt="Image 7">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="/projects/resilience_thread/wall_8.jpg" class="d-block w-100" alt="Image 8">
+                            </div>
+                        </div>
+                    
+                        <!-- Left and right controls with dark arrow icons -->
+                        <a class="carousel-control-prev" href="#imageCarousel_wall" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon custom-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#imageCarousel_wall" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon custom-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
+
+                    <br>
+                    <hr>
+                    <br>
+                    <p><b>Behind The Scene</b></p>
+                    <br>
+                    <div id="imageCarousel_backstage" class="carousel slide" data-ride="carousel">
+                        <!-- Indicators (optional) -->
+                        <ol class="carousel-indicators">
+                            <li data-target="#imageCarousel_backstage" data-slide-to="0" class="active"></li>
+                            <li data-target="#imageCarousel_backstage" data-slide-to="1"></li>
+                            <li data-target="#imageCarousel_backstage" data-slide-to="2"></li>
+                            <li data-target="#imageCarousel_backstage" data-slide-to="3"></li>
+                            <li data-target="#imageCarousel_backstage" data-slide-to="4"></li>
+                            <li data-target="#imageCarousel_backstage" data-slide-to="5"></li>
+                            <li data-target="#imageCarousel_backstage" data-slide-to="6"></li>
+                            <li data-target="#imageCarousel_backstage" data-slide-to="7"></li>
+                            <li data-target="#imageCarousel_backstage" data-slide-to="8"></li>
+                            <li data-target="#imageCarousel_backstage" data-slide-to="9"></li>
+                            <li data-target="#imageCarousel_backstage" data-slide-to="10"></li>
+                            <li data-target="#imageCarousel_backstage" data-slide-to="11"></li>
+                            <li data-target="#imageCarousel_backstage" data-slide-to="12"></li>
+                            <li data-target="#imageCarousel_backstage" data-slide-to="13"></li>
+                            <li data-target="#imageCarousel_backstage" data-slide-to="14"></li>
+                            
+                        </ol>
+                    
+                        <!-- Carousel inner slides -->
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <img src="/projects/resilience_thread/backstage_1.jpg" class="d-block w-100" alt="Image 1">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="/projects/resilience_thread/backstage_2.jpg" class="d-block w-100" alt="Image 2">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="/projects/resilience_thread/backstage_3.jpg" class="d-block w-100" alt="Image 3">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="/projects/resilience_thread/backstage_4.jpg" class="d-block w-100" alt="Image 4">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="/projects/resilience_thread/backstage_5.jpg" class="d-block w-100" alt="Image 5">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="/projects/resilience_thread/backstage_6.jpg" class="d-block w-100" alt="Image 6">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="/projects/resilience_thread/backstage_7.jpg" class="d-block w-100" alt="Image 7">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="/projects/resilience_thread/backstage_8.jpg" class="d-block w-100" alt="Image 8">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="/projects/resilience_thread/backstage_9.jpg" class="d-block w-100" alt="Image 8">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="/projects/resilience_thread/backstage_10.jpg" class="d-block w-100" alt="Image 8">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="/projects/resilience_thread/backstage_11.jpg" class="d-block w-100" alt="Image 8">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="/projects/resilience_thread/backstage_12.jpg" class="d-block w-100" alt="Image 8">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="/projects/resilience_thread/backstage_13.jpg" class="d-block w-100" alt="Image 8">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="/projects/resilience_thread/backstage_14.jpg" class="d-block w-100" alt="Image 8">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="/projects/resilience_thread/backstage_15.jpg" class="d-block w-100" alt="Image 8">
+                            </div>
+                        </div>
+                    
+                        <!-- Left and right controls with dark arrow icons -->
+                        <a class="carousel-control-prev" href="#imageCarousel_backstage" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon custom-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#imageCarousel_backstage" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon custom-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+
+
+    </body>
+</html>
