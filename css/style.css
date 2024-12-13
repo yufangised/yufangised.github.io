@@ -133,7 +133,7 @@ body {
 
 /* Right overlay menu */
 .menu {
-    position: absolute;
+    position: fixed;
     left: 200;
     top: 0;
     width: 200px;
