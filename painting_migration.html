@@ -88,6 +88,18 @@
                         <button class="btn btn-primary mb-3" id="loadSVG1">load painting 1</button>
                         <button class="btn btn-primary mb-3" id="loadSVG2">load painting 2</button>
                         <button class="btn btn-primary mb-3" id="loadSVG3">load painting 3</button>
+                        <br>
+                        <br>
+                        <p><b>One Step Further</b></p>
+                        <p>
+                            I’m quite happy with the outcome of this migration process. From here, I sense that this method could become a new way for me to create digital art. 
+                            Any texture that appeals to me can be photographed and transformed into a unique style of digital interactive artwork.
+                            I conducted some experiments, and below are the results.
+                        </p>
+                        <button class="btn btn-primary mb-3" id="loadSVG4">load texture 1</button>
+                        <button class="btn btn-primary mb-3" id="loadSVG5">load texture 2</button>
+                        <button class="btn btn-primary mb-3" id="loadSVG6">load texture 3</button>
+                        <button class="btn btn-primary mb-3" id="loadSVG7">load texture 3</button>
                 
                         <!-- Container to inject the SVG -->
                         <div id="svgContainer" class="mt-4"></div>
@@ -146,8 +158,13 @@
                         document.getElementById('loadSVG1').addEventListener('click', () => loadSVG('/projects/painting_migration/painting_1.svg'));
                         document.getElementById('loadSVG2').addEventListener('click', () => loadSVG('/projects/painting_migration/painting_2.svg'));
                         document.getElementById('loadSVG3').addEventListener('click', () => loadSVG('/projects/painting_migration/painting_3.svg'));
+                        document.getElementById('loadSVG4').addEventListener('click', () => loadSVG('/projects/painting_migration/digital_texture_1.svg'));
+                        document.getElementById('loadSVG5').addEventListener('click', () => loadSVG('/projects/painting_migration/digital_texture_2.svg'));
+                        document.getElementById('loadSVG6').addEventListener('click', () => loadSVG('/projects/painting_migration/digital_texture_3.svg'));
+                        document.getElementById('loadSVG7').addEventListener('click', () => loadSVG('/projects/painting_migration/digital_texture_4.svg'));
                     </script>
                     <br>
+                    <hr>
                     <br>
                     <p><b>The Original Paintings</b></p>
                     <br>
@@ -183,86 +200,6 @@
                         </a>
                     </div>
                     <br>
-                    <hr>
-                    <br>
-                    <p><b>One Step Further</b></p>
-                    <br>
-                    <p>
-                        I’m quite happy with the outcome of this migration process. From here, I sense that this method could become a new way for me to create digital art. 
-                        Any texture that appeals to me can be photographed and transformed into a unique style of digital interactive artwork.
-                        I conducted some experiments, and below are the results.
-                    </p>
-                    <div class="container mt-5">
-                        <!-- Bootstrap Slider to control batch size -->
-                        <div class="form-group">
-                            <label for="batchSizeSlider_1">loading speed: <span id="batchSizeValue_1">5</span></label>
-                            <input type="range" class="form-range" id="batchSizeSlider_1" min="1" max="100" value="5">
-                        </div>
-    
-                        <button class="btn btn-primary mb-3" id="loadSVG4">load texture 1</button>
-                        <button class="btn btn-primary mb-3" id="loadSVG5">load texture 2</button>
-                        <button class="btn btn-primary mb-3" id="loadSVG6">load texture 3</button>
-                        <button class="btn btn-primary mb-3" id="loadSVG7">load texture 4</button>
-                
-                        <!-- Container to inject the SVG -->
-                        <div id="svgContainer_1" class="mt-4"></div>
-                    </div>
-                    
-                    <script>
-                        let batchSize_1 = 5;  // Default batch size
-                        let elements_1;  // To store the SVG elements
-                
-                        // Function to load the SVG
-                        function loadSVG(svgFileName) {
-                            const container = document.getElementById('svgContainer_1');
-                            
-                            // Clear the previous SVG if it exists
-                            container.innerHTML = '';  // Clears the container for reloading
-    
-                            fetch(svgFileName)  // Load the specified SVG file
-                                .then(response => response.text())
-                                .then(svgData => {
-                                    container.innerHTML = svgData;  // Inject the SVG data
-                
-                                    // Select all elements in the SVG (e.g., paths, circles, rectangles, etc.)
-                                    const svgElement = container.querySelector('svg');
-                                    elements = svgElement.querySelectorAll('path, rect, circle, line, polygon, polyline');
-                
-                                    // Hide all elements initially
-                                    elements.forEach(el => el.classList.add('hidden'));
-    
-                                    // After loading the SVG, reveal elements
-                                    revealElements();
-                                })
-                                .catch(error => console.error('Error loading SVG:', error));
-                        }
-                
-                        // Function to reveal elements based on the current batch size
-                        function revealElements() {
-                            elements.forEach((el, index) => {
-                                setTimeout(() => {
-                                    for (let i = index * batchSize_1; i < (index + 1) * batchSize_1 && i < elements.length; i++) {
-                                        elements[i].classList.remove('hidden');
-                                    }
-                                }, index * 1);  // Delay for smoother transition
-                            });
-                        }
-                
-                        // Event listener to update batch size dynamically using the Bootstrap slider
-                        const batchSizeSlider_1 = document.getElementById('batchSizeSlider_1');
-                        const batchSizeValueDisplay_1 = document.getElementById('batchSizeValue_1');
-                
-                        batchSizeSlider_1.addEventListener('input', (event) => {
-                            batchSize_1 = event.target.value;  // Update batch size
-                            batchSizeValueDisplay_1.textContent = batchSize_1;  // Display updated value
-                        });
-                
-                        // Add event listeners to the buttons to load different SVG files
-                        document.getElementById('loadSVG4').addEventListener('click', () => loadSVG('/projects/painting_migration/ditital_texture_1.svg'));
-                        document.getElementById('loadSVG5').addEventListener('click', () => loadSVG('/projects/painting_migration/digital_texture_2.svg'));
-                        document.getElementById('loadSVG6').addEventListener('click', () => loadSVG('/projects/painting_migration/ditital_texture_3.svg'));
-                        document.getElementById('loadSVG7').addEventListener('click', () => loadSVG('/projects/painting_migration/ditital_texture_4.svg'));
-                    </script>
                     <br>
                 </div>
             </div>
