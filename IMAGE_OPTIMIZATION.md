@@ -67,8 +67,11 @@ SSIM ≥ 0.98 基本肉眼无法分辨。逐图选质量，不要固定一个值
   ~~有比 2500px 更大的原图吗？~~ **已答复：没有。** 2500px 即上限。背景图保持 2500px 原生，5K 拉伸维持现状但不会更差。不做放大 — 放大只增加体积不增加信息。
 - ~~Quality floor?~~ **Resolved: SSIM ≥ 0.98, ladder q85→q90→q95→q98.** 0.99 is unreachable for 93 images.
   ~~质量下限？~~ **已定：SSIM ≥ 0.98，阶梯 q85→q90→q95→q98。** 0.99 对 93 张图不可达。
-- AVIF too? ~20–30% smaller than WebP, needs `brew install libavif`. Optional.
-  要不要一并上 AVIF？比 WebP 再小 20–30%，需要 `brew install libavif`。可选。
+- ~~AVIF too?~~ **Deferred, not rejected.** Would save roughly another 1MB on a 5MB first screen — not worth ~1h of encoding and a second set of 431 files right now. The `<picture>` fallback chain is already in place, so it can be added as a standalone step at any time. Note the average 20–30% gain is not uniform: AVIF leads most on smooth gradients, least on the dense-texture images (conbricks) that are exactly our worst cases.
+  ~~要不要一并上 AVIF？~~ **暂缓，非否决。** 5MB 的首屏上大约再省 1MB，眼下不值约 1 小时编码加多维护 431 个文件。`<picture>` 回退链已就位，随时可作为独立一步补上。注意 20–30% 是平均值而非均匀分布：AVIF 在平滑渐变上领先最多，在密集纹理（conbricks，恰是我们最难的那批）上领先最少。
+
+- **Bigger remaining lever is structural, not format.** `conbricks.html` still ships 5.9MB because it has 9 carousels = 9 eagerly-loaded first-screen images, and they are the hardest images on the site to compress. Reducing the number of first-screen carousels would save more than AVIF would, at zero quality cost. Design decision — needs Yufan.
+  **剩下最大的杠杆在结构而非格式。** `conbricks.html` 仍有 5.9MB，因为它有 9 个轮播 = 9 张首屏急加载图，且正好是全站最难压的。减少首屏轮播数量比上 AVIF 省得更多，且不牺牲任何画质。属设计决策。
 
 ## Notes / 备注
 
