@@ -5,17 +5,21 @@ Images total **503MB**, 141 `<img>` tags, 0 with lazy loading.
 
 ## Current state / 现状
 
-| Page / 页面 | Payload / 首屏下载 | Images / 图片 | Lazy-able / 可懒加载 |
-|---|---|---|---|
-| resilience_thread.html | 92.4 MB | 30 | 25 |
-| conbricks.html | 73.2 MB | 33 | 24 |
-| augmented_ears.html | 35.0 MB | 17 | 14 |
-| fireworks_latern.html | 25.3 MB | 14 | 11 |
-| function.html | 23.4 MB | 10 | 8 |
-| mutic_box.html | 20.5 MB | 7 | 6 |
-| channel_of_mindfulness.html | 18.7 MB | 23 | 18 |
-| toy_painters.html | 6.8 MB | 4 | 3 |
-| painting_migration.html | 5.4 MB | 3 | 2 |
+| Page / 页面 | Before / 优化前 | After step 1 / 第 1 步后 | Images / 图片 | Lazy / 已懒加载 |
+|---|---|---|---|---|
+| resilience_thread.html | 92.4 MB | **15.3 MB** | 30 | 25 |
+| conbricks.html | 73.2 MB | **20.1 MB** | 33 | 24 |
+| augmented_ears.html | 35.0 MB | **5.3 MB** | 17 | 14 |
+| fireworks_latern.html | 25.3 MB | **5.7 MB** | 14 | 11 |
+| function.html | 23.4 MB | **5.9 MB** | 10 | 8 |
+| mutic_box.html | 20.5 MB | **2.9 MB** | 7 | 6 |
+| channel_of_mindfulness.html | 18.7 MB | **3.1 MB** | 23 | 18 |
+| toy_painters.html | 6.8 MB | **1.9 MB** | 4 | 3 |
+| painting_migration.html | 5.4 MB | **1.6 MB** | 3 | 2 |
+| **Total / 合计** | **300.7 MB** | **61.7 MB** | 141 | 111 |
+
+`conbricks.html` stays highest at 20.1MB because it has 9 carousels, so 9 slides are eagerly loaded. Format conversion is what brings that down.
+`conbricks.html` 仍有 20.1MB，因为它有 9 个轮播、9 张首屏图。这部分要靠格式转换来降。
 
 Bootstrap carousels download every slide at once. Homepage hover pulls the full-size image each time (26MB to hover the whole menu).
 Bootstrap 轮播会一次性下载所有 slide。首页悬停每次都拉全尺寸原图（整个菜单划一遍 26MB）。
@@ -40,10 +44,10 @@ SSIM ≥ 0.98 基本肉眼无法分辨。逐图选质量，不要固定一个值
 
 ## Steps / 步骤
 
-- [ ] Branch and back up originals (`_originals/`, add to `.gitignore`)
-      建分支，备份原图到 `_originals/` 并加入 `.gitignore`
-- [ ] Add `loading="lazy"` to non-`active` carousel images (111 total) — biggest win, no pixels changed
-      给非 `active` 的轮播图加 `loading="lazy"`（共 111 张）— 收益最大，不动任何像素
+- [x] Branch `image-optimization`. All 168 images are tracked in git and originals stay in place as `<picture>` fallback, so no separate copy is needed — `git checkout -- .` is the rollback.
+      建分支 `image-optimization`。168 张图全部在 git 追踪中，且原图保留在原位作 `<picture>` 兜底，无需另存副本 — 回滚用 `git checkout -- .`
+- [x] Added `loading="lazy"` to 111 non-`active` carousel images across 9 pages. First-screen payload **300.7MB → 61.7MB (-79%)**, zero pixels changed.
+      已给 9 个页面共 111 张非 `active` 轮播图加上 `loading="lazy"`。首屏总量 **300.7MB → 61.7MB（-79%）**，未改动任何像素。
 - [ ] Run per-image SSIM scan, pick lowest quality meeting SSIM ≥ 0.98
       逐图跑 SSIM，选满足 SSIM ≥ 0.98 的最低质量
 - [ ] Generate WebP at native size + 1200/1800 variants. Keep original JPEG/PNG as fallback
@@ -59,8 +63,8 @@ SSIM ≥ 0.98 基本肉眼无法分辨。逐图选质量，不要固定一个值
 
 ## Open questions / 待确认
 
-- Any originals larger than 2500px? If so, re-export backgrounds from those to fix 5K stretching.
-  有比 2500px 更大的原图吗？有的话背景图应从原图重导，顺便解决 5K 拉伸。
+- ~~Any originals larger than 2500px?~~ **Answered: no.** 2500px is the ceiling. Backgrounds stay at native 2500px; 5K stretching persists but does not get worse. Do not upscale — it adds bytes without adding information.
+  ~~有比 2500px 更大的原图吗？~~ **已答复：没有。** 2500px 即上限。背景图保持 2500px 原生，5K 拉伸维持现状但不会更差。不做放大 — 放大只增加体积不增加信息。
 - Quality floor: SSIM ≥ 0.98 (default) or ≥ 0.99 (~1.4x the size)?
   质量下限：SSIM ≥ 0.98（默认）还是 ≥ 0.99（体积约 1.4 倍）？
 - AVIF too? ~20–30% smaller than WebP, needs `brew install libavif`. Optional.
