@@ -48,25 +48,25 @@ SSIM ≥ 0.98 基本肉眼无法分辨。逐图选质量，不要固定一个值
       建分支 `image-optimization`。168 张图全部在 git 追踪中，且原图保留在原位作 `<picture>` 兜底，无需另存副本 — 回滚用 `git checkout -- .`
 - [x] Added `loading="lazy"` to 111 non-`active` carousel images across 9 pages. First-screen payload **300.7MB → 61.7MB (-79%)**, zero pixels changed.
       已给 9 个页面共 111 张非 `active` 轮播图加上 `loading="lazy"`。首屏总量 **300.7MB → 61.7MB（-79%）**，未改动任何像素。
-- [ ] Run per-image SSIM scan, pick lowest quality meeting SSIM ≥ 0.98
-      逐图跑 SSIM，选满足 SSIM ≥ 0.98 的最低质量
-- [ ] Generate WebP at native size + 1200/1800 variants. Keep original JPEG/PNG as fallback
-      生成原生尺寸 WebP + 1200/1800 两档。原 JPEG/PNG 保留作兜底
-- [ ] Switch content images to `<picture>` + `srcset`; `sizes` must match the 1800px/2400px CSS breakpoints
-      正文图改用 `<picture>` + `srcset`；`sizes` 必须与 CSS 的 1800px/2400px 断点一致
-- [ ] Homepage: 400px thumbnail (~12KB) as instant placeholder, swap in full-size after it loads
-      首页：400px 缩略图（约 12KB）做即时占位，全尺寸图加载完成后替换
+- [x] Scanned all 156 images at q85/q90/q95. **SSIM ≥ 0.99 turned out to be unreachable** — 93 images miss it even at q95, so it would just pin everything to q95 for 15MB more. Settled on **≥ 0.98 with q98 added to the top of the ladder** for the 13 stubborn images.
+      已扫描全部 156 张（q85/q90/q95）。**SSIM ≥ 0.99 不可达** — 93 张连 q95 都到不了，选它只会把大部分图无脑顶到 q95，多花 15MB。最终定为 **≥ 0.98，并在阶梯顶端加 q98** 处理 13 张顽固图。
+- [x] Generated 431 WebP variants at **1280 / 1920 / native**, 37 skipped as they would upscale. Quality spread: q85 ×51, q90 ×26, q95 ×66, q98 ×13. Originals untouched.
+      已生成 431 个 WebP，档位 **1280 / 1920 / 原生**，37 个因会放大而跳过。质量分布：q85 ×51、q90 ×26、q95 ×66、q98 ×13。原图未动。
+- [x] All 141 content images wrapped in `<picture>`. `sizes` matches the CSS breakpoints: `(max-width:768px) calc(100vw - 80px), (min-width:2400px) 1740px, (min-width:1800px) 1440px, 1140px`.
+      141 张正文图全部包进 `<picture>`。`sizes` 与 CSS 断点一致。
+- [x] 15 thumbnails, **187KB total**. Hover shows the thumbnail instantly, full-size loads in the background and swaps in only if the pointer is still on that item. Thumbnails prewarmed on idle. Hovering the whole menu: **26MB blocking → 187KB**.
+      15 张缩略图共 **187KB**。悬停立即显示缩略图，全尺寸后台加载，仅当指针仍停在该项时才替换。空闲时预热。整个菜单划一遍：**26MB 阻塞 → 187KB**。
 - [ ] `painting_migration` SVGs — 7 files, 161MB, 100k+ paths each. Simplify paths in Illustrator
       `painting_migration` 的 SVG — 7 个文件共 161MB，每个 10 万以上路径。在 Illustrator 里简化路径
-- [ ] Verify at 390 / 1440 / 2560 / 5120 viewports, then merge
-      在 390 / 1440 / 2560 / 5120 视口下验证，然后合并
+- [ ] Verify visually in a browser at 390 / 1440 / 2560 viewports, then merge. Automated checks already pass: 683 image references all resolve, 141/141 `<picture>` blocks well-formed, 0 bare `<img>`.
+      在浏览器中于 390 / 1440 / 2560 视口目视验证，然后合并。自动检查已通过：683 个图片引用全部有效，141/141 个 `<picture>` 结构完整，0 张裸露 `<img>`。
 
 ## Open questions / 待确认
 
 - ~~Any originals larger than 2500px?~~ **Answered: no.** 2500px is the ceiling. Backgrounds stay at native 2500px; 5K stretching persists but does not get worse. Do not upscale — it adds bytes without adding information.
   ~~有比 2500px 更大的原图吗？~~ **已答复：没有。** 2500px 即上限。背景图保持 2500px 原生，5K 拉伸维持现状但不会更差。不做放大 — 放大只增加体积不增加信息。
-- Quality floor: SSIM ≥ 0.98 (default) or ≥ 0.99 (~1.4x the size)?
-  质量下限：SSIM ≥ 0.98（默认）还是 ≥ 0.99（体积约 1.4 倍）？
+- ~~Quality floor?~~ **Resolved: SSIM ≥ 0.98, ladder q85→q90→q95→q98.** 0.99 is unreachable for 93 images.
+  ~~质量下限？~~ **已定：SSIM ≥ 0.98，阶梯 q85→q90→q95→q98。** 0.99 对 93 张图不可达。
 - AVIF too? ~20–30% smaller than WebP, needs `brew install libavif`. Optional.
   要不要一并上 AVIF？比 WebP 再小 20–30%，需要 `brew install libavif`。可选。
 
@@ -76,3 +76,22 @@ SSIM ≥ 0.98 基本肉眼无法分辨。逐图选质量，不要固定一个值
   `cwebp` / `dwebp` 已安装。Python PIL + numpy 可用于计算 SSIM。
 - `.git` holds another 450MB of historical images. Does not affect page load — separate issue.
   `.git` 另有 450MB 历史大图。不影响页面加载，是独立议题。
+
+## Results / 实测结果
+
+First-screen payload by device (was **300.7 MB** on every device):
+各设备首屏下载量（优化前一律 **300.7 MB**）：
+
+| Device / 设备 | Payload / 下载量 |
+|---|---|
+| Phone 390 @3x | **5.0 MB** |
+| Laptop 1440 @1x | **5.0 MB** |
+| Laptop 1440 @2x | **20.5 MB** |
+| Ultrawide 2560 @1x | **11.0 MB** |
+| 5K 5120 @2x | **20.5 MB** |
+
+Retina laptops pull 20.5MB because 1440@2x needs 2280 physical pixels, which lands on the 2500px tier. That is correct behaviour, not a regression — it is the point of not downscaling.
+视网膜笔记本拿到 20.5MB，是因为 1440@2x 需要 2280 物理像素，只能取 2500 那档。这是正确行为而非退步 —— 正是"不降尺寸"的意义所在。
+
+Homepage hover: **26 MB blocking → 187 KB**, full-size loads in the background.
+首页悬停：**26 MB 阻塞 → 187 KB**，全尺寸图后台加载。
