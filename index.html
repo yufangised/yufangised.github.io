@@ -66,12 +66,14 @@
             }
 
             const ready = new Set();           // 已完全加载的全尺寸图
+            let current = null;                // 当前选中的菜单项（触屏没有 :hover，不能靠它判断）
             function show(url, preview) {
                 backgroundContainer.style.backgroundImage = `url('${url}')`;
                 backgroundContainer.classList.toggle('is-preview', !!preview);
             }
 
             function activate(link) {
+                current = link;
                 const full = pickFull(link);
                 if (ready.has(full)) { show(full, false); return; }
                 const thumb = link.getAttribute('data-thumb');
@@ -79,16 +81,21 @@
                 const img = new Image();
                 img.onload = () => {
                     ready.add(full);
-                    // 仅当鼠标仍停在这一项时才替换，避免快速划过时闪回
-                    if (link.matches(':hover')) show(full, false);
+                    // 仅当这一项仍是当前项时才替换，避免快速划过时闪回
+                    if (current === link) show(full, false);
                 };
-                img.onerror = () => show(link.getAttribute('data-image'), false);
+                img.onerror = () => { if (current === link) show(link.getAttribute('data-image'), false); };
                 img.src = full;                          // 最终显示的始终是全尺寸图
             }
 
             menuLinks.forEach(link => {
                 link.addEventListener('mouseover', () => activate(link));
-                link.addEventListener('mouseout', () => show(DEFAULT, false));
+                link.addEventListener('touchstart', () => activate(link), { passive: true });
+                link.addEventListener('mouseout', () => {
+                    if (current !== link) return;        // 已切到别项就别抢
+                    current = null;
+                    show(DEFAULT, false);
+                });
             });
 
             // 空闲时预热缩略图，悬停就完全没有等待（合计约 187KB）
