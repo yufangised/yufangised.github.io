@@ -88,22 +88,34 @@
                 img.src = full;                          // 最终显示的始终是全尺寸图
             }
 
-            menuLinks.forEach(link => {
-                link.addEventListener('mouseover', () => activate(link));
-                link.addEventListener('touchstart', () => activate(link), { passive: true });
-                link.addEventListener('mouseout', () => {
-                    if (current !== link) return;        // 已切到别项就别抢
-                    current = null;
-                    show(DEFAULT, false);
+            // 背景预览是悬停态的交互。触屏上点一下就导航走了，全尺寸加载必然被中断，
+            // 预览只会把一张缩略图留在 bfcache 里。所以只在真正能悬停的设备上启用。
+            if (window.matchMedia('(hover: hover)').matches) {
+                menuLinks.forEach(link => {
+                    link.addEventListener('mouseover', () => activate(link));
+                    link.addEventListener('mouseout', () => {
+                        if (current !== link) return;    // 已切到别项就别抢
+                        current = null;
+                        show(DEFAULT, false);
+                    });
                 });
-            });
 
-            // 空闲时预热缩略图，悬停就完全没有等待（合计约 187KB）
-            const warm = () => menuLinks.forEach(l => {
-                const t = l.getAttribute('data-thumb');
-                if (t) new Image().src = t;
+                // 空闲时预热缩略图，悬停就完全没有等待（合计约 187KB）
+                const warm = () => menuLinks.forEach(l => {
+                    const t = l.getAttribute('data-thumb');
+                    if (t) new Image().src = t;
+                });
+                'requestIdleCallback' in window ? requestIdleCallback(warm) : setTimeout(warm, 1200);
+            }
+
+            // 从 bfcache 返回时 DOM 原样恢复，脚本不重跑：离开前那张缩略图和
+            // .is-preview 会一直挂着。清掉内联样式，交回 CSS 的默认背景。
+            window.addEventListener('pageshow', e => {
+                if (!e.persisted) return;
+                current = null;
+                backgroundContainer.style.backgroundImage = '';
+                backgroundContainer.classList.remove('is-preview');
             });
-            'requestIdleCallback' in window ? requestIdleCallback(warm) : setTimeout(warm, 1200);
         </script>
     </body>
 </html>
