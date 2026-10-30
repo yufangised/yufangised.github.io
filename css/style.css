@@ -142,7 +142,7 @@ body {
 }
 
 .content-container p,li {
-    font-size: 15px;   /* presentink 用的是 18→15.5px */
+    font-size: 14px;   /* presentink 用的是 18→15.5px */
     line-height: 1.6;
     color: #333;
 }
