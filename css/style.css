@@ -180,13 +180,30 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-family: "Space Grotesk", "Inter", -apple-system, sans-serif;
-    font-size: clamp(15px, 3.2vw, 30px);
-    font-weight: 500;
-    letter-spacing: 0.18em;  /* 与 presentink 的标签字距一致 */
+    font-size: clamp(18px, 3.6vw, 34px);
     line-height: 1.2;
     color: #fff;
     pointer-events: none;
+}
+
+/* 视频整块可点，跳回艺术站 */
+.content-container .video-link {
+    display: block;
+    text-decoration: none;
+}
+
+/* PRESENT INK 字标 —— 艺术站上它是 Eczar 700，所以这边每一处「独立出现」
+   的 PRESENT INK 都用同一张脸：菜单项、页面标题、视频叠字。
+   句子中间出现的 PRESENT INK 不换字体（见上面标题那条规则的理由）。
+   PRESENT INK as a wordmark: Eczar 700, the face it already has on the
+   art site, wherever the name stands on its own. Inside a sentence it
+   stays in the body face, like any other inline bold. */
+.menu a.wordmark,
+.content-container .section-title b.wordmark,
+.content-container .video-caption {
+    font-family: "Eczar", Georgia, "Times New Roman", serif;
+    font-weight: 700;
+    letter-spacing: 0.01em;
 }
 
 .content-container p,
