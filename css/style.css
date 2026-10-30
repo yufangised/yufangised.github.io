@@ -15,8 +15,37 @@
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23555'%3E%3Cpath d='M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
 }
 
+/* ── Typography ─────────────────────────────────────────────────────
+   Space Grotesk for labels (nav, project title, hashtags), Inter for
+   reading. Both already carry these roles on presentink.github.io, so
+   the two sites read as related without being the same.
+   Space Grotesk 为标签（导航、项目标题、标签行），Inter 为正文阅读。
+   两者在 presentink 上已承担相同角色，使两站同源而不雷同。
+   ------------------------------------------------------------------ */
 body {
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     font-size: small;
+}
+
+.menu a,
+.content-container b {
+    font-family: "Space Grotesk", "Inter", -apple-system, sans-serif;
+    letter-spacing: 0.04em;
+}
+
+/* 导航字距收紧一档：14px 下 "channel of mindfulness" 才不会折行。
+   Tighter tracking in the nav so the longest item still fits on one line. */
+.menu a {
+    letter-spacing: 0.02em;
+}
+
+/* 标签行 #design / #lego / #sculpture 交回正文字体 —— Inter 载入了真斜体，
+   Space Grotesk 没有斜体，继承 <i> 只会得到合成倾斜。
+   The hashtag line falls back to the body face: Inter ships a true
+   italic, Space Grotesk has none and would only be synthetically obliqued. */
+.content-container i b {
+    font-family: inherit;
+    letter-spacing: 0;
 }
 .btn {
     font-size: small;
@@ -83,7 +112,7 @@ body {
 .content-container {
     position: absolute;
     top:20px;
-    left:250px;
+    left:280px;
     min-width: 300px;
     max-width: 1200px;
     padding: 30px;
@@ -113,7 +142,7 @@ body {
 }
 
 .content-container p,li {
-    font-size: 13px;
+    font-size: 13px;   /* 想试更大正文改成 15px — presentink 用的是 18→15.5px */
     line-height: 1.6;
     color: #333;
 }
@@ -124,7 +153,7 @@ body {
     position: fixed;
     left: 200;
     top: 0;
-    width: 200px;
+    width: 240px;
     height: 100%;
     padding: 20px;
     padding-left: 20px;
@@ -135,14 +164,15 @@ body {
     }
 
 .menu p {
-    font-size: 9px;
+    font-size: 11px;
 }
 
 .menu a {
     color: rgb(99, 97, 97);
     text-decoration: none;
-    margin: 3px 0;
-    font-size: 12px;
+    margin: 4px 0;
+    font-size: 14px;
+    line-height: 1.25;   /* 行高管单项内部，项间距交给 margin / tight leading, spacing via margin */
     transition: color 0.3s;
     }
 
@@ -160,15 +190,15 @@ body {
         position: fixed; /* Ensure it stays at the top */
         flex-direction: column; /* Stack items vertically */
         height: auto; /* Shrink to fit content */
-        width: 200px; /* Full width */
+        width: 240px; /* Full width */
         padding: 20px; /* Adjust padding */
         padding-left: 20px;
         z-index: 999;
     }
 
     .menu a {
-        font-size: 12px;
-        margin: 3px 0; /* Spacing between items */
+        font-size: 14px;
+        margin: 4px 0; /* Spacing between items */
         text-align: left; /* Align text to the left */
     }
    
