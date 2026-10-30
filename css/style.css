@@ -192,14 +192,10 @@ body {
     text-decoration: none;
 }
 
-/* PRESENT INK 字标 —— 艺术站上它是 Eczar 700，所以这边每一处「独立出现」
-   的 PRESENT INK 都用同一张脸：菜单项、页面标题、视频叠字。
-   句子中间出现的 PRESENT INK 不换字体（见上面标题那条规则的理由）。
-   PRESENT INK as a wordmark: Eczar 700, the face it already has on the
-   art site, wherever the name stands on its own. Inside a sentence it
-   stays in the body face, like any other inline bold. */
-.menu a.wordmark,
-.content-container .section-title b.wordmark,
+/* 视频叠字用 Eczar —— 艺术站 hero 的那张脸，整站只此一处。
+   菜单和页面标题走站内自己的 Space Grotesk 体系，不跟它走。
+   Eczar only on the video overlay: the art site's hero face, used once.
+   The nav and the page title stay in this site's own Space Grotesk. */
 .content-container .video-caption {
     font-family: "Eczar", Georgia, "Times New Roman", serif;
     font-weight: 700;
