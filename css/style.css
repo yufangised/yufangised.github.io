@@ -141,6 +141,15 @@ body {
     height: 100vh; /* Full height */
 }
 
+/* 正文区里的控件跟正文同号 —— 否则 .btn 的 font-size:small 会让
+   按钮和 label 比周围正文小一档。
+   Controls inside the content area match body copy; otherwise .btn's
+   font-size:small renders them a step below the text around them. */
+.content-container .btn,
+.content-container label {
+    font-size: 14px;
+}
+
 .content-container p,
 .content-container li {
     font-size: 14px;   /* presentink 用的是 18→15.5px */
