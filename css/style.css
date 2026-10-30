@@ -147,6 +147,48 @@ body {
     font-size: 14px;
 }
 
+/* 内容流里的视频 + 叠加标题。沿用艺术站 hero 的处理（0.45 黑色遮罩、
+   Space Grotesk 大字距），但不是全屏背景：宽度跟正文栏走，高度自撑。
+   Video in the content flow with an overlaid title — the art site's hero
+   treatment (0.45 scrim, widely tracked Space Grotesk) scaled down to the
+   text column instead of filling the viewport. */
+.content-container .video-block {
+    position: relative;
+    line-height: 0;          /* 去掉 video 下方的基线间隙 */
+}
+
+.content-container .content-video {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    background: #000;
+}
+
+.content-container .video-block::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    pointer-events: none;
+}
+
+.content-container .video-caption {
+    position: absolute;
+    inset: 0;
+    z-index: 1;              /* 压在遮罩之上 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Space Grotesk", "Inter", -apple-system, sans-serif;
+    font-size: clamp(15px, 3.2vw, 30px);
+    font-weight: 500;
+    letter-spacing: 0.18em;  /* 与 presentink 的标签字距一致 */
+    line-height: 1.2;
+    color: #fff;
+    pointer-events: none;
+}
+
 .content-container p,
 .content-container li {
     font-size: 14px;   /* presentink 用的是 18→15.5px */
