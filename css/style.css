@@ -15,8 +15,34 @@
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23555'%3E%3Cpath d='M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
 }
 
+/* ── Typography ─────────────────────────────────────────────────────
+   Space Grotesk for headings and nav, Inter for everything read.
+   Both already carry these roles on presentink.github.io, so the two
+   sites read as related without being the same.
+   Space Grotesk 用于标题与导航，Inter 用于一切阅读性文字。
+   两者在 presentink 上已承担相同角色，使两站同源而不雷同。
+   ------------------------------------------------------------------ */
 body {
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     font-size: small;
+}
+
+/* Space Grotesk 只给两处：导航，以及独占一行的标题（.section-title）。
+   与正文同一行的粗体 —— 句中强调、"粗体引导词 + 正文"的列表和履历 ——
+   一律留在 Inter：两个字体骨架差异大，同行混排会打架。
+   Space Grotesk is for the nav and for headings that own their whole line.
+   Bold that shares a line with body copy stays in Inter; the two faces are
+   too different in structure to sit side by side within a sentence. */
+.menu a,
+.content-container .section-title b {
+    font-family: "Space Grotesk", "Inter", -apple-system, sans-serif;
+    letter-spacing: 0.04em;
+}
+
+/* 导航字距收紧一档：14px 下 "channel of mindfulness" 才不会折行。
+   Tighter tracking in the nav so the longest item still fits on one line. */
+.menu a {
+    letter-spacing: 0.02em;
 }
 .btn {
     font-size: small;
@@ -83,7 +109,7 @@ body {
 .content-container {
     position: absolute;
     top:20px;
-    left:250px;
+    left:280px;
     min-width: 300px;
     max-width: 1200px;
     padding: 30px;
@@ -112,8 +138,73 @@ body {
     height: 100vh; /* Full height */
 }
 
-.content-container p,li {
-    font-size: 13px;
+/* 正文区里的控件跟正文同号 —— 否则 .btn 的 font-size:small 会让
+   按钮和 label 比周围正文小一档。
+   Controls inside the content area match body copy; otherwise .btn's
+   font-size:small renders them a step below the text around them. */
+.content-container .btn,
+.content-container label {
+    font-size: 14px;
+}
+
+/* 内容流里的视频 + 叠加标题。沿用艺术站 hero 的处理（0.45 黑色遮罩、
+   Space Grotesk 大字距），但不是全屏背景：宽度跟正文栏走，高度自撑。
+   Video in the content flow with an overlaid title — the art site's hero
+   treatment (0.45 scrim, widely tracked Space Grotesk) scaled down to the
+   text column instead of filling the viewport. */
+.content-container .video-block {
+    position: relative;
+    line-height: 0;          /* 去掉 video 下方的基线间隙 */
+}
+
+.content-container .content-video {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    background: #000;
+}
+
+.content-container .video-block::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    pointer-events: none;
+}
+
+.content-container .video-caption {
+    position: absolute;
+    inset: 0;
+    z-index: 1;              /* 压在遮罩之上 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: clamp(18px, 3.6vw, 34px);
+    line-height: 1.2;
+    color: #fff;
+    pointer-events: none;
+}
+
+/* 视频整块可点，跳回艺术站 */
+.content-container .video-link {
+    display: block;
+    text-decoration: none;
+}
+
+/* 视频叠字用 Eczar —— 艺术站 hero 的那张脸，整站只此一处。
+   菜单和页面标题走站内自己的 Space Grotesk 体系，不跟它走。
+   Eczar only on the video overlay: the art site's hero face, used once.
+   The nav and the page title stay in this site's own Space Grotesk. */
+.content-container .video-caption {
+    font-family: "Eczar", Georgia, "Times New Roman", serif;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+}
+
+.content-container p,
+.content-container li {
+    font-size: 14px;   /* presentink 用的是 18→15.5px */
     line-height: 1.6;
     color: #333;
 }
@@ -124,7 +215,7 @@ body {
     position: fixed;
     left: 200;
     top: 0;
-    width: 200px;
+    width: 240px;
     height: 100%;
     padding: 20px;
     padding-left: 20px;
@@ -135,14 +226,15 @@ body {
     }
 
 .menu p {
-    font-size: 9px;
+    font-size: 11px;
 }
 
 .menu a {
     color: rgb(99, 97, 97);
     text-decoration: none;
-    margin: 3px 0;
-    font-size: 12px;
+    margin: 4px 0;
+    font-size: 14px;
+    line-height: 1.25;   /* 行高管单项内部，项间距交给 margin / tight leading, spacing via margin */
     transition: color 0.3s;
     }
 
@@ -160,15 +252,15 @@ body {
         position: fixed; /* Ensure it stays at the top */
         flex-direction: column; /* Stack items vertically */
         height: auto; /* Shrink to fit content */
-        width: 200px; /* Full width */
+        width: 240px; /* Full width */
         padding: 20px; /* Adjust padding */
         padding-left: 20px;
         z-index: 999;
     }
 
     .menu a {
-        font-size: 12px;
-        margin: 3px 0; /* Spacing between items */
+        font-size: 14px;
+        margin: 4px 0; /* Spacing between items */
         text-align: left; /* Align text to the left */
     }
    
