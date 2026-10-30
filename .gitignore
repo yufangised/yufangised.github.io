@@ -1,1 +1,8 @@
 .DS_Store
+
+# 本地备份 —— 绝不提交：GitHub Pages 会把它们当网页伺服，
+# 等于把删掉的内容又公开发布一遍。真正的备份是 git 历史本身。
+# Local backups, never committed: Pages would serve them as live
+# pages, republishing the very content they back up. Git history is
+# the real backup.
+backup/
