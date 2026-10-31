@@ -14,7 +14,7 @@
         <meta name="author" content="yufan wang">
         <!-- STYLES -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-        <link rel="stylesheet" type="text/css" href="/css/style.css?rnd=149">
+        <link rel="stylesheet" type="text/css" href="/css/style.css?rnd=150">
         <link rel="shortcut icon" href="/src/favicon.ico">
         <!-- SCRIPTS -->
         <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
@@ -149,6 +149,14 @@
                         /* 每帧插入 = 滑块值 x 16。默认 5 时 11.5 万条约 24 秒。 */
                         const PER_UNIT = 16;
 
+                        /* 改成 false 可以重现「串色」：两个舞台的 <style> 会共用同一个
+                           文档作用域，后加载的文件用自己的调色板重画先加载的那张。
+                           这不是 bug 残留，是故意留的开关 —— 机制和配对效果见 COLOR_BLEED.md。
+                           Set to false to bring back the colour bleed: both stages then
+                           share one document scope and the second file repaints the first
+                           with its own palette. Kept deliberately; see COLOR_BLEED.md. */
+                        const ISOLATE_STYLES = true;
+
                         /* 解压后的真实字节数。GitHub Pages 用 gzip 传输，
                            Content-Length 是压缩后的大小，拿它算百分比会超过 100%，
                            所以这里写死原始大小。
@@ -193,7 +201,7 @@
                             const st  = document.getElementById(stage.status);
                             const run = ++runId;
 
-                            box.textContent = '';
+                            (box.shadowRoot || box).textContent = '';
                             status(st, 'Downloading', 0);
 
                             try {
@@ -234,12 +242,35 @@
                                 const src = doc.querySelector('svg');
                                 if (!src || doc.querySelector('parsererror')) throw new Error('SVG parse failed');
 
+                                /* 两个舞台会同时有内容，而这些文件都用 Illustrator 生成的
+                                   .st0/.st1/... 类名 —— SVG 的 <style> 是文档级的，不是元素级，
+                                   所以后加载的那份会把先加载的颜色全改掉（串色）。
+                                   每个舞台挂一棵 shadow root，样式就各管各的。
+                                   Both stages can hold a drawing at once and every file uses the
+                                   same Illustrator .stN class names. An SVG <style> is
+                                   document-scoped, so the second load would repaint the first.
+                                   A shadow root per stage keeps each file's styles to itself. */
+                                let root = box.shadowRoot || box;
+                                if (ISOLATE_STYLES && !box.shadowRoot) {
+                                    try {
+                                        root = box.attachShadow({ mode: 'open' });
+                                    } catch (e) {
+                                        root = box;   // 极老的浏览器：退回普通 DOM
+                                    }
+                                }
+                                root.textContent = '';
+                                if (root !== box) {
+                                    const fit = document.createElement('style');
+                                    fit.textContent = 'svg{max-width:100%;height:auto;display:block;margin:0 auto}';
+                                    root.appendChild(fit);
+                                }
+
                                 /* 空壳先进页面：根属性照搬，<style> 先放，
                                    这样插进来的路径一出现就有颜色。 */
                                 const svg = document.createElementNS(SVG_NS, 'svg');
                                 for (const a of src.attributes) svg.setAttribute(a.name, a.value);
-                                src.querySelectorAll('style').forEach((n) => svg.appendChild(n.cloneNode(true)));
-                                box.appendChild(svg);
+                                src.querySelectorAll('style').forEach((n) => root.appendChild(n.cloneNode(true)));
+                                root.appendChild(svg);
 
                                 /* 图形留在 doc 里不进页面。NodeList 是静态的，边搬边用索引安全。 */
                                 const shapes = src.querySelectorAll(

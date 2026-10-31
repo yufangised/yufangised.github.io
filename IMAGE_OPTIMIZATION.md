@@ -56,8 +56,19 @@ SSIM ≥ 0.98 基本肉眼无法分辨。逐图选质量，不要固定一个值
       141 张正文图全部包进 `<picture>`。`sizes` 与 CSS 断点一致。
 - [x] 15 thumbnails, **187KB total**. Hover shows the thumbnail instantly, full-size loads in the background and swaps in only if the pointer is still on that item. Thumbnails prewarmed on idle. Hovering the whole menu: **26MB blocking → 187KB**.
       15 张缩略图共 **187KB**。悬停立即显示缩略图，全尺寸后台加载，仅当指针仍停在该项时才替换。空闲时预热。整个菜单划一遍：**26MB 阻塞 → 187KB**。
-- [ ] `painting_migration` SVGs — 7 files, 161MB, 100k+ paths each. Simplify paths in Illustrator
-      `painting_migration` 的 SVG — 7 个文件共 161MB，每个 10 万以上路径。在 Illustrator 里简化路径
+- [x] `painting_migration` SVGs — **"simplify the paths" was the wrong goal and has been dropped.**
+      The slow reveal of 14k–115k paths *is* the artwork, not a loading delay, so simplifying them
+      would destroy the piece. What was actually broken was the loader: one `setTimeout` per path
+      (114,547 of them for the largest file) with every path held hidden behind an opacity
+      transition, which killed mobile tabs. Rewritten around a single `requestAnimationFrame` loop
+      that inserts shapes as they are drawn. The files are untouched and the effect is unchanged.
+      Splitting the page into two stages then surfaced a colour-bleed effect — see `COLOR_BLEED.md`.
+      `painting_migration` 的 SVG — **「简化路径」这个目标是错的，已废弃。**
+      1.4 万–11.5 万条路径缓慢浮现**就是作品本身**，不是加载延迟，简化等于毁掉作品。
+      真正坏的是加载器：每条路径一个 `setTimeout`（最大的文件 114,547 个），
+      且全部用 opacity 藏着，手机标签页会被系统杀掉。已重写为单个 `requestAnimationFrame`
+      循环，边画边插入。文件本身未动，效果不变。
+      拆成两个舞台后又牵出一个「串色」效果 — 见 `COLOR_BLEED.md`。
 - [ ] Verify visually in a browser at 390 / 1440 / 2560 viewports, then merge. Automated checks already pass: 683 image references all resolve, 141/141 `<picture>` blocks well-formed, 0 bare `<img>`.
       在浏览器中于 390 / 1440 / 2560 视口目视验证，然后合并。自动检查已通过：683 个图片引用全部有效，141/141 个 `<picture>` 结构完整，0 张裸露 `<img>`。
 
