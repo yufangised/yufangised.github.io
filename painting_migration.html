@@ -108,63 +108,101 @@
                     </div>
                     
                     <script>
-                        let batchSize = 5;  // Default batch size
-                        let elements;  // To store the SVG elements
-                
-                        // Function to load the SVG
-                        function loadSVG(svgFileName) {
-                            const container = document.getElementById('svgContainer');
-                            
-                            // Clear the previous SVG if it exists
-                            container.innerHTML = '';  // Clears the container for reloading
-    
-                            fetch(svgFileName)  // Load the specified SVG file
-                                .then(response => response.text())
-                                .then(svgData => {
-                                    container.innerHTML = svgData;  // Inject the SVG data
-                
-                                    // Select all elements in the SVG (e.g., paths, circles, rectangles, etc.)
-                                    const svgElement = container.querySelector('svg');
-                                    elements = svgElement.querySelectorAll('path, rect, circle, line, polygon, polyline');
-                
-                                    // Hide all elements initially
-                                    elements.forEach(el => el.classList.add('hidden'));
-    
-                                    // After loading the SVG, reveal elements
-                                    revealElements();
-                                })
-                                .catch(error => console.error('Error loading SVG:', error));
-                        }
-                
-                        // Function to reveal elements based on the current batch size
-                        function revealElements() {
-                            elements.forEach((el, index) => {
-                                setTimeout(() => {
-                                    for (let i = index * batchSize; i < (index + 1) * batchSize && i < elements.length; i++) {
-                                        elements[i].classList.remove('hidden');
-                                    }
-                                }, index * 1);  // Delay for smoother transition
-                            });
-                        }
-                
-                        // Event listener to update batch size dynamically using the Bootstrap slider
-                        const batchSizeSlider = document.getElementById('batchSizeSlider');
-                        const batchSizeValueDisplay = document.getElementById('batchSizeValue');
-                
-                        batchSizeSlider.addEventListener('input', (event) => {
-                            batchSize = event.target.value;  // Update batch size
-                            batchSizeValueDisplay.textContent = batchSize;  // Display updated value
+                    /* 渐进加载大型 SVG。
+                       这些文件有 1.4 万到 11.5 万条路径 —— 逐条浮现是作品本身，
+                       不是加载指示器，所以效果保留，只换掉实现方式。
+
+                       旧写法有三个问题，手机上会直接崩：
+                         1. 每条路径一个 setTimeout —— 11.5 万个定时器同时排队；
+                            其中约 8 成算错了索引，响了什么也不做，还要空烧 90 秒。
+                         2. innerHTML 一次性注入整份 SVG，11.5 万个节点立刻全部存在，
+                            只是用 opacity 藏着 —— 藏着的东西一样占内存，
+                            而且每个都挂着 0.5 秒过渡，等于 11.5 万个并发动画。
+                         3. 没有取消机制，连点两个按钮会让两轮定时器互相踩。
+
+                       现在：一个 requestAnimationFrame 循环，每帧插入一批；
+                       图形留在解析出的文档里，用多少取多少，页面从空开始长大；
+                       一个 run token 让新点击立即终止上一轮。
+                       rAF 还会自己适应慢设备 —— 掉帧时速度跟着降，不会堆积。
+
+                       Progressive loading for large SVGs. The paths appearing one by
+                       one is the artwork, so the effect stays; only the mechanism
+                       changes — one rAF loop instead of 115k timers, and shapes are
+                       inserted as they are drawn rather than all held hidden. */
+                    (function () {
+                        const SVG_NS    = 'http://www.w3.org/2000/svg';
+                        const container = document.getElementById('svgContainer');
+                        const slider    = document.getElementById('batchSizeSlider');
+                        const display   = document.getElementById('batchSizeValue');
+
+                        /* 每帧插入 = 滑块值 x 16。16 让默认值 5 的节奏与旧版相当
+                           （11.5 万条约 24 秒），滑到头约 1.2 秒，滑到底约 2 分钟。 */
+                        const PER_UNIT = 16;
+
+                        let runId = 0;   // 取消令牌：自增即作废上一轮
+
+                        slider.addEventListener('input', (e) => {
+                            display.textContent = e.target.value;
                         });
-                
-                        // Add event listeners to the buttons to load different SVG files
-                        document.getElementById('loadSVG1').addEventListener('click', () => loadSVG('/projects/painting_migration/painting_1.svg'));
-                        document.getElementById('loadSVG2').addEventListener('click', () => loadSVG('/projects/painting_migration/painting_2.svg'));
-                        document.getElementById('loadSVG3').addEventListener('click', () => loadSVG('/projects/painting_migration/painting_3.svg'));
-                        document.getElementById('loadSVG4').addEventListener('click', () => loadSVG('/projects/painting_migration/digital_texture_1.svg'));
-                        document.getElementById('loadSVG5').addEventListener('click', () => loadSVG('/projects/painting_migration/digital_texture_2.svg'));
-                        document.getElementById('loadSVG6').addEventListener('click', () => loadSVG('/projects/painting_migration/digital_texture_3.svg'));
-                        document.getElementById('loadSVG7').addEventListener('click', () => loadSVG('/projects/painting_migration/digital_texture_4.svg'));
-                    </script>
+
+                        function loadSVG(file) {
+                            const run = ++runId;
+                            container.textContent = '';
+
+                            fetch(file)
+                                .then((r) => {
+                                    if (!r.ok) throw new Error('HTTP ' + r.status);
+                                    return r.text();
+                                })
+                                .then((text) => {
+                                    if (run !== runId) return;      // 已被新的点击取代
+
+                                    const doc = new DOMParser().parseFromString(text, 'image/svg+xml');
+                                    const src = doc.querySelector('svg');
+                                    if (!src || doc.querySelector('parsererror')) {
+                                        throw new Error('SVG parse failed');
+                                    }
+
+                                    /* 空壳先进页面：根属性照搬，<style> 先放进去，
+                                       这样后面插入的路径一出现就有颜色。 */
+                                    const svg = document.createElementNS(SVG_NS, 'svg');
+                                    for (const a of src.attributes) svg.setAttribute(a.name, a.value);
+                                    src.querySelectorAll('style').forEach((n) => svg.appendChild(n.cloneNode(true)));
+                                    container.appendChild(svg);
+
+                                    /* 图形留在 doc 里，不进页面。NodeList 是静态的，
+                                       所以边搬边用索引是安全的。 */
+                                    const shapes = src.querySelectorAll(
+                                        'path, rect, circle, ellipse, line, polygon, polyline');
+                                    let i = 0;
+
+                                    (function frame() {
+                                        if (run !== runId) return;   // 被取消
+                                        const n = Math.max(1, (parseInt(slider.value, 10) || 1) * PER_UNIT);
+                                        const stop = Math.min(i + n, shapes.length);
+                                        const frag = document.createDocumentFragment();
+                                        for (; i < stop; i++) frag.appendChild(shapes[i]);
+                                        svg.appendChild(frag);
+                                        if (i < shapes.length) requestAnimationFrame(frame);
+                                    })();
+                                })
+                                .catch((err) => console.error('Error loading SVG:', err));
+                        }
+
+                        const FILES = {
+                            loadSVG1: '/projects/painting_migration/painting_1.svg',
+                            loadSVG2: '/projects/painting_migration/painting_2.svg',
+                            loadSVG3: '/projects/painting_migration/painting_3.svg',
+                            loadSVG4: '/projects/painting_migration/digital_texture_1.svg',
+                            loadSVG5: '/projects/painting_migration/digital_texture_2.svg',
+                            loadSVG6: '/projects/painting_migration/digital_texture_3.svg',
+                            loadSVG7: '/projects/painting_migration/digital_texture_4.svg',
+                        };
+                        Object.keys(FILES).forEach((id) => {
+                            document.getElementById(id).addEventListener('click', () => loadSVG(FILES[id]));
+                        });
+                    })();
+                </script>
                     <br>
                     <hr>
                     <br>
