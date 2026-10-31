@@ -14,7 +14,7 @@
         <meta name="author" content="yufan wang">
         <!-- STYLES -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-        <link rel="stylesheet" type="text/css" href="/css/style.css?rnd=148">
+        <link rel="stylesheet" type="text/css" href="/css/style.css?rnd=149">
         <link rel="shortcut icon" href="/src/favicon.ico">
         <!-- SCRIPTS -->
         <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
@@ -90,7 +90,14 @@
                         <button class="btn btn-primary mb-3" id="loadSVG1">load painting 1</button>
                         <button class="btn btn-primary mb-3" id="loadSVG2">load painting 2</button>
                         <button class="btn btn-primary mb-3" id="loadSVG3">load painting 3</button>
-                        <br>
+
+                        <div class="svg-stage">
+                            <p class="svg-status" id="paintingStatus" hidden>
+                                <span class="svg-status-label">Loading</span>
+                                <span class="svg-status-bar"><i></i></span>
+                            </p>
+                            <div class="svg-container" id="paintingContainer"></div>
+                        </div>
                         <br>
                         <p class="section-title"><b>One Step Further</b></p>
                         <p>
@@ -102,42 +109,64 @@
                         <button class="btn btn-primary mb-3" id="loadSVG5">load texture 2</button>
                         <button class="btn btn-primary mb-3" id="loadSVG6">load texture 3</button>
                         <button class="btn btn-primary mb-3" id="loadSVG7">load texture 4</button>
-                
-                        <!-- Container to inject the SVG -->
-                        <div id="svgContainer" class="mt-4"></div>
+
+                        <div class="svg-stage">
+                            <p class="svg-status" id="textureStatus" hidden>
+                                <span class="svg-status-label">Loading</span>
+                                <span class="svg-status-bar"><i></i></span>
+                            </p>
+                            <div class="svg-container" id="textureContainer"></div>
+                        </div>
                     </div>
                     
                     <script>
                     /* 渐进加载大型 SVG。
-                       这些文件有 1.4 万到 11.5 万条路径 —— 逐条浮现是作品本身，
+                       这些文件 1.4 万到 11.5 万条路径 —— 逐条浮现是作品本身，
                        不是加载指示器，所以效果保留，只换掉实现方式。
 
-                       旧写法有三个问题，手机上会直接崩：
-                         1. 每条路径一个 setTimeout —— 11.5 万个定时器同时排队；
-                            其中约 8 成算错了索引，响了什么也不做，还要空烧 90 秒。
-                         2. innerHTML 一次性注入整份 SVG，11.5 万个节点立刻全部存在，
-                            只是用 opacity 藏着 —— 藏着的东西一样占内存，
-                            而且每个都挂着 0.5 秒过渡，等于 11.5 万个并发动画。
-                         3. 没有取消机制，连点两个按钮会让两轮定时器互相踩。
+                       旧写法在手机上会崩：每条路径一个 setTimeout（11.5 万个），
+                       整份文档一次性 innerHTML 注入后全部用 opacity 藏着，
+                       每个还挂着 0.5 秒过渡；而且没有取消机制，连点两个按钮会互相踩。
 
-                       现在：一个 requestAnimationFrame 循环，每帧插入一批；
-                       图形留在解析出的文档里，用多少取多少，页面从空开始长大；
-                       一个 run token 让新点击立即终止上一轮。
-                       rAF 还会自己适应慢设备 —— 掉帧时速度跟着降，不会堆积。
+                       现在：一个 requestAnimationFrame 循环每帧插一批，图形留在
+                       解析出的文档里用多少取多少，一个 run token 让新点击终止上一轮。
+                       rAF 会自己适应慢设备 —— 掉帧就减速，不会堆积任务。
 
-                       Progressive loading for large SVGs. The paths appearing one by
-                       one is the artwork, so the effect stays; only the mechanism
-                       changes — one rAF loop instead of 115k timers, and shapes are
-                       inserted as they are drawn rather than all held hidden. */
+                       两组按钮各有自己的舞台，画就出现在按钮正下方；
+                       下载和解析期间显示进度，因为 30MB 要等好几秒。
+
+                       Progressive loading for large SVGs: the paths appearing one by
+                       one is the artwork, so that is unchanged — only the mechanism.
+                       One rAF loop instead of 115k timers; shapes inserted as drawn
+                       rather than all held hidden; a run token cancels a previous
+                       pass. Each button group draws into its own stage, and real
+                       progress is shown while the file downloads and parses. */
                     (function () {
-                        const SVG_NS    = 'http://www.w3.org/2000/svg';
-                        const container = document.getElementById('svgContainer');
-                        const slider    = document.getElementById('batchSizeSlider');
-                        const display   = document.getElementById('batchSizeValue');
+                        const SVG_NS = 'http://www.w3.org/2000/svg';
+                        const slider  = document.getElementById('batchSizeSlider');
+                        const display = document.getElementById('batchSizeValue');
 
-                        /* 每帧插入 = 滑块值 x 16。16 让默认值 5 的节奏与旧版相当
-                           （11.5 万条约 24 秒），滑到头约 1.2 秒，滑到底约 2 分钟。 */
+                        /* 每帧插入 = 滑块值 x 16。默认 5 时 11.5 万条约 24 秒。 */
                         const PER_UNIT = 16;
+
+                        /* 解压后的真实字节数。GitHub Pages 用 gzip 传输，
+                           Content-Length 是压缩后的大小，拿它算百分比会超过 100%，
+                           所以这里写死原始大小。
+                           Uncompressed sizes: Pages gzips these, so Content-Length
+                           is the compressed figure and cannot drive the percentage. */
+                        const FILES = {
+                            loadSVG1: ['painting_1.svg',        4897949,  'painting'],
+                            loadSVG2: ['painting_2.svg',       12642751,  'painting'],
+                            loadSVG3: ['painting_3.svg',       12345425,  'painting'],
+                            loadSVG4: ['digital_texture_1.svg', 26665280, 'texture'],
+                            loadSVG5: ['digital_texture_2.svg', 32261864, 'texture'],
+                            loadSVG6: ['digital_texture_3.svg', 32687125, 'texture'],
+                            loadSVG7: ['digital_texture_4.svg', 26170998, 'texture'],
+                        };
+                        const STAGE = {
+                            painting: { box: 'paintingContainer', status: 'paintingStatus' },
+                            texture:  { box: 'textureContainer',  status: 'textureStatus'  },
+                        };
 
                         let runId = 0;   // 取消令牌：自增即作废上一轮
 
@@ -145,61 +174,97 @@
                             display.textContent = e.target.value;
                         });
 
-                        function loadSVG(file) {
-                            const run = ++runId;
-                            container.textContent = '';
-
-                            fetch(file)
-                                .then((r) => {
-                                    if (!r.ok) throw new Error('HTTP ' + r.status);
-                                    return r.text();
-                                })
-                                .then((text) => {
-                                    if (run !== runId) return;      // 已被新的点击取代
-
-                                    const doc = new DOMParser().parseFromString(text, 'image/svg+xml');
-                                    const src = doc.querySelector('svg');
-                                    if (!src || doc.querySelector('parsererror')) {
-                                        throw new Error('SVG parse failed');
-                                    }
-
-                                    /* 空壳先进页面：根属性照搬，<style> 先放进去，
-                                       这样后面插入的路径一出现就有颜色。 */
-                                    const svg = document.createElementNS(SVG_NS, 'svg');
-                                    for (const a of src.attributes) svg.setAttribute(a.name, a.value);
-                                    src.querySelectorAll('style').forEach((n) => svg.appendChild(n.cloneNode(true)));
-                                    container.appendChild(svg);
-
-                                    /* 图形留在 doc 里，不进页面。NodeList 是静态的，
-                                       所以边搬边用索引是安全的。 */
-                                    const shapes = src.querySelectorAll(
-                                        'path, rect, circle, ellipse, line, polygon, polyline');
-                                    let i = 0;
-
-                                    (function frame() {
-                                        if (run !== runId) return;   // 被取消
-                                        const n = Math.max(1, (parseInt(slider.value, 10) || 1) * PER_UNIT);
-                                        const stop = Math.min(i + n, shapes.length);
-                                        const frag = document.createDocumentFragment();
-                                        for (; i < stop; i++) frag.appendChild(shapes[i]);
-                                        svg.appendChild(frag);
-                                        if (i < shapes.length) requestAnimationFrame(frame);
-                                    })();
-                                })
-                                .catch((err) => console.error('Error loading SVG:', err));
+                        function status(el, text, pct) {
+                            if (text === null) { el.hidden = true; return; }
+                            el.hidden = false;
+                            el.querySelector('.svg-status-label').textContent = text;
+                            const bar = el.querySelector('.svg-status-bar');
+                            bar.classList.toggle('is-indeterminate', pct == null);
+                            bar.firstElementChild.style.width = pct == null ? '' : pct + '%';
                         }
 
-                        const FILES = {
-                            loadSVG1: '/projects/painting_migration/painting_1.svg',
-                            loadSVG2: '/projects/painting_migration/painting_2.svg',
-                            loadSVG3: '/projects/painting_migration/painting_3.svg',
-                            loadSVG4: '/projects/painting_migration/digital_texture_1.svg',
-                            loadSVG5: '/projects/painting_migration/digital_texture_2.svg',
-                            loadSVG6: '/projects/painting_migration/digital_texture_3.svg',
-                            loadSVG7: '/projects/painting_migration/digital_texture_4.svg',
-                        };
+                        /* 让浏览器真的把上一句状态画出来，再做会阻塞主线程的事。 */
+                        const paint = () => new Promise((r) => requestAnimationFrame(() => setTimeout(r, 0)));
+
+                        async function loadSVG(id) {
+                            const [file, bytes, stageName] = FILES[id];
+                            const stage = STAGE[stageName];
+                            const box = document.getElementById(stage.box);
+                            const st  = document.getElementById(stage.status);
+                            const run = ++runId;
+
+                            box.textContent = '';
+                            status(st, 'Downloading', 0);
+
+                            try {
+                                const res = await fetch('/projects/painting_migration/' + file);
+                                if (!res.ok) throw new Error('HTTP ' + res.status);
+
+                                /* 边下边报进度。没有 body reader 的浏览器直接退回 text()。 */
+                                let text;
+                                if (res.body && res.body.getReader) {
+                                    const reader = res.body.getReader();
+                                    const chunks = [];
+                                    let got = 0;
+                                    for (;;) {
+                                        const { done, value } = await reader.read();
+                                        if (done) break;
+                                        if (run !== runId) { reader.cancel(); return; }
+                                        chunks.push(value);
+                                        got += value.length;
+                                        status(st, 'Downloading', Math.min(99, Math.round(got / bytes * 100)));
+                                    }
+                                    text = new TextDecoder().decode(
+                                        chunks.length === 1 ? chunks[0] : (() => {
+                                            const all = new Uint8Array(got);
+                                            let at = 0;
+                                            for (const c of chunks) { all.set(c, at); at += c.length; }
+                                            return all;
+                                        })());
+                                } else {
+                                    text = await res.text();
+                                }
+                                if (run !== runId) return;
+
+                                status(st, 'Preparing', null);
+                                await paint();                 // 先让 Preparing 显示出来
+                                if (run !== runId) return;
+
+                                const doc = new DOMParser().parseFromString(text, 'image/svg+xml');
+                                const src = doc.querySelector('svg');
+                                if (!src || doc.querySelector('parsererror')) throw new Error('SVG parse failed');
+
+                                /* 空壳先进页面：根属性照搬，<style> 先放，
+                                   这样插进来的路径一出现就有颜色。 */
+                                const svg = document.createElementNS(SVG_NS, 'svg');
+                                for (const a of src.attributes) svg.setAttribute(a.name, a.value);
+                                src.querySelectorAll('style').forEach((n) => svg.appendChild(n.cloneNode(true)));
+                                box.appendChild(svg);
+
+                                /* 图形留在 doc 里不进页面。NodeList 是静态的，边搬边用索引安全。 */
+                                const shapes = src.querySelectorAll(
+                                    'path, rect, circle, ellipse, line, polygon, polyline');
+                                let i = 0;
+                                status(st, null);              // 开始出画，指示器让位
+
+                                (function frame() {
+                                    if (run !== runId) return;
+                                    const n = Math.max(1, (parseInt(slider.value, 10) || 1) * PER_UNIT);
+                                    const stop = Math.min(i + n, shapes.length);
+                                    const frag = document.createDocumentFragment();
+                                    for (; i < stop; i++) frag.appendChild(shapes[i]);
+                                    svg.appendChild(frag);
+                                    if (i < shapes.length) requestAnimationFrame(frame);
+                                })();
+
+                            } catch (err) {
+                                console.error('Error loading SVG:', err);
+                                if (run === runId) status(st, 'Could not load this one', null);
+                            }
+                        }
+
                         Object.keys(FILES).forEach((id) => {
-                            document.getElementById(id).addEventListener('click', () => loadSVG(FILES[id]));
+                            document.getElementById(id).addEventListener('click', () => loadSVG(id));
                         });
                     })();
                 </script>
