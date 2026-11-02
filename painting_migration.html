@@ -351,39 +351,52 @@
         </div>
         <!-- ===== 临时诊断探针，查清「滚不回顶部」后即删 ===== -->
         <div id="probe" style="position:fixed;left:0;right:0;bottom:0;z-index:99999;
-             background:#111;color:#0f0;font:11px/1.45 ui-monospace,monospace;
+             background:#111;color:#0f0;font:10px/1.35 ui-monospace,monospace;
              padding:6px 8px;white-space:pre;pointer-events:none"></div>
         <script>
         (function () {
             var el = document.getElementById('probe');
-            function fmt(n) { return Math.round(n); }
-            function tick() {
+            var log = [];
+            var t0 = Date.now();
+            function mark(tag) {
+                log.push(('     ' + (Date.now() - t0)).slice(-5) + 'ms ' + tag +
+                         ' y=' + Math.round(window.scrollY) +
+                         ' h=' + document.documentElement.scrollHeight);
+                if (log.length > 7) log.shift();
+                draw();
+            }
+            function draw() {
                 var cc = document.querySelector('.content-container');
-                var mn = document.querySelector('.menu');
                 var ti = document.querySelector('.section-title');
                 var de = document.documentElement;
-                var vv = window.visualViewport;
                 el.textContent =
-                  'scrollY ' + fmt(window.scrollY) +
-                  '   scrollHeight ' + fmt(de.scrollHeight) +
-                  '   clientHeight ' + fmt(de.clientHeight) + '\n' +
-                  'innerHeight ' + fmt(window.innerHeight) +
-                  (vv ? '   visualVP ' + fmt(vv.height) + ' off ' + fmt(vv.offsetTop) : '') + '\n' +
-                  'menu    top ' + fmt(mn.getBoundingClientRect().top) +
-                  '  h ' + fmt(mn.getBoundingClientRect().height) +
-                  '  pos ' + getComputedStyle(mn).position + '\n' +
-                  'content top ' + fmt(cc.getBoundingClientRect().top) +
-                  '  offsetTop ' + fmt(cc.offsetTop) +
-                  '  pos ' + getComputedStyle(cc).position + '\n' +
-                  'title   top ' + (ti ? fmt(ti.getBoundingClientRect().top) : 'n/a');
+                  'restore=' + (history.scrollRestoration || 'n/a') +
+                  '  y=' + Math.round(window.scrollY) +
+                  '  h=' + de.scrollHeight +
+                  '  vh=' + de.clientHeight + '\n' +
+                  'title top ' + (ti ? Math.round(ti.getBoundingClientRect().top) : 'n/a') +
+                  '   content top ' + Math.round(cc.getBoundingClientRect().top) + '\n' +
+                  log.join('\n');
             }
-            addEventListener('scroll', tick, {passive:true});
-            addEventListener('resize', tick);
-            if (window.visualViewport) {
-                visualViewport.addEventListener('scroll', tick);
-                visualViewport.addEventListener('resize', tick);
-            }
-            tick();
+            mark('script');
+            addEventListener('DOMContentLoaded', function () { mark('DOMready'); });
+            addEventListener('load', function () { mark('load   '); });
+            setTimeout(function () { mark('+500ms '); }, 500);
+            setTimeout(function () { mark('+2s    '); }, 2000);
+            setTimeout(function () { mark('+5s    '); }, 5000);
+            var last = -1;
+            addEventListener('scroll', function () {
+                // 只在停止滚动后记一次，避免刷屏
+                clearTimeout(window.__pt);
+                window.__pt = setTimeout(function () {
+                    if (Math.round(window.scrollY) !== last) {
+                        last = Math.round(window.scrollY);
+                        mark('settled');
+                    }
+                }, 250);
+                draw();
+            }, {passive: true});
+            addEventListener('resize', draw);
         })();
         </script>
         <!-- ===== 探针结束 ===== -->
