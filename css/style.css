@@ -177,7 +177,16 @@ body {
     position: absolute;
     top:20px;
     left:280px;
-    min-width: 300px;
+    /* 宽度是 shrink-to-fit，所以正常情况下由正文撑开。一旦页面只有一段
+       视频或一张图（文字还没写），它会塌缩到 min-width，嵌入内容跟着
+       缩成一小块。下限改成与内容无关的阅读宽度，减去左侧菜单和内边距，
+       这样窄桌面也不会横向溢出。
+       Width is shrink-to-fit, so the body copy normally sets it. On a page
+       that is only an embed or an image it collapsed to min-width and took
+       the media down with it. The floor is now a content-independent
+       reading width, minus the nav column and padding so a narrow desktop
+       still cannot overflow sideways. */
+    min-width: min(1140px, calc(100vw - 340px));
     max-width: 1200px;
     padding: 30px;
     margin: 0 20px; /* For small screen side margins */
@@ -342,6 +351,7 @@ body {
         top: 80px;
         left: 0;
         padding: 16px;     /* 唯一的侧边槽，原来是 30px + 列内 15px */
+        min-width: 100%;   /* left:0 + border-box -> 正好一屏宽，不溢出 */
     }
 
     /* Bootstrap 给每个 .col-* 加了 15px 左右内边距，叠在上面的 padding 上
