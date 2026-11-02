@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>My LEGO Punch — Yufan Wang</title>
+        <!-- FONTS -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;1,400&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+        <!-- META -->
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="creative technologies">
+        <meta name="author" content="yufan wang">
+        <!-- STYLES -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <link rel="stylesheet" type="text/css" href="/css/style.css?rnd=157">
+        <link rel="shortcut icon" href="/src/favicon.ico">
+        <!-- SCRIPTS -->
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+        <!-- ANALYTICS -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-163543797-1"></script>
+        <script>
+            /* Chrome 会记住上次离开时的滚动位置，并在布局稳定后（图片加载完）才应用，
+               于是页面先停在顶部约 1 秒、再自己跳下去，项目标题就滑进固定白条底下。
+               这些是一次读完的作品页，不是需要接着往下读的长文，所以每次都从头开始更合理。
+               Chrome restores the previous scroll offset, and waits for layout to settle
+               before applying it — so the page sits at the top for about a second and then
+               jumps, taking the project title under the fixed bar. These are pages you read
+               from the start, so opening at the start is the right behaviour. */
+            if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+        </script>
+    </head>
+    <body>
+
+        <!-- Full-Screen Container -->
+        <div class="full-screen-container" id="background-container">
+            <!-- Content can go here if needed -->
+        </div>
+
+        <!-- Overlay Menu -->
+        <div class="menu menu--back">
+            <a href="/index.html" data-image="/images/default.png">YUFAN WANG</a>
+        </div>
+        <script>
+            const menuLinks = document.querySelectorAll('.menu a');
+            const backgroundContainer = document.getElementById('background-container');
+            menuLinks.forEach(link => {
+                link.addEventListener('mouseover', function () {
+                    backgroundContainer.style.backgroundImage = `url('${this.getAttribute('data-image')}')`;
+                });
+                link.addEventListener('mouseout', function () {
+                    backgroundContainer.style.backgroundImage = "url('/images/default.png')";
+                });
+            });
+        </script>
+
+        <div class="content-wrapper">
+            <div class="content-container">
+                <div class="col-md-9 col-sm-12 col-xs-12">
+                    <p class="section-title">
+                        <b>MY LEGO PUNCH / 2018-2025</b>
+                    </p>
+                    <br>
+                    <br>
+
+                    <!-- TODO 正文待写 / copy to come -->
+
+                    <div class="embed-responsive embed-responsive-16by9">
+                        <iframe
+                            src="https://www.youtube.com/embed/tmD7etDPmo0"
+                            class="embed-responsive-item"
+                            frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                    <br>
+
+                </div>
+            </div>
+        </div>
+
+    </body>
+</html>
