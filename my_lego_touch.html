@@ -21,6 +21,16 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
         <!-- ANALYTICS -->
         <script async src="https://www.googletagmanager.com/gtag/js?id=UA-163543797-1"></script>
+        <script>
+            /* Chrome 会记住上次离开时的滚动位置，并在布局稳定后（图片加载完）才应用，
+               于是页面先停在顶部约 1 秒、再自己跳下去，项目标题就滑进固定白条底下。
+               这些是一次读完的作品页，不是需要接着往下读的长文，所以每次都从头开始更合理。
+               Chrome restores the previous scroll offset, and waits for layout to settle
+               before applying it — so the page sits at the top for about a second and then
+               jumps, taking the project title under the fixed bar. These are pages you read
+               from the start, so opening at the start is the right behaviour. */
+            if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+        </script>
     </head>
     <body>
        
