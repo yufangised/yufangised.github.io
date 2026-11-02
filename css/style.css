@@ -67,7 +67,14 @@ body {
     text-align: center;
 }
 
+/* width 必须显式写。这些 SVG 只有 viewBox、没有 width/height，
+   只给 max-width 的话宽度由浏览器的替换元素默认尺寸算法决定 ——
+   结果因文件比例和引擎而异，七张图宽窄不一。
+   width must be explicit: these files carry only a viewBox, so with
+   max-width alone the final width comes from the UA's default sizing
+   for a ratio-only replaced element and varies file to file. */
 .svg-container svg {
+    width: 100%;
     max-width: 100%;
     height: auto;
     display: block;

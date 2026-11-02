@@ -14,7 +14,7 @@
         <meta name="author" content="yufan wang">
         <!-- STYLES -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-        <link rel="stylesheet" type="text/css" href="/css/style.css?rnd=150">
+        <link rel="stylesheet" type="text/css" href="/css/style.css?rnd=151">
         <link rel="shortcut icon" href="/src/favicon.ico">
         <!-- SCRIPTS -->
         <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
@@ -261,7 +261,7 @@
                                 root.textContent = '';
                                 if (root !== box) {
                                     const fit = document.createElement('style');
-                                    fit.textContent = 'svg{max-width:100%;height:auto;display:block;margin:0 auto}';
+                                    fit.textContent = 'svg{width:100%;height:auto;display:block;margin:0 auto}';   /* 必须显式给 width —— 这些文件只有 viewBox 没有 width/height，光靠 max-width 的话最终宽度由浏览器的默认尺寸算法决定，各文件各引擎都不一样 */
                                     root.appendChild(fit);
                                 }
 
