@@ -320,8 +320,12 @@ body {
         flex-direction: column; /* Stack items vertically */
         height: auto; /* Shrink to fit content */
         width: 240px; /* Full width */
-        padding: 20px; /* Adjust padding */
-        padding-left: 20px;
+        padding: 20px;
+        /* 左内边距对齐 .content-container 的 16px —— 否则导航的
+           YUFAN WANG 比正文往右缩 4px，两条左边界对不齐。
+           Match .content-container's 16px so the nav's left edge lines up
+           with the body text instead of sitting 4px further in. */
+        padding-left: 16px;
         z-index: 999;
     }
 
