@@ -14,7 +14,7 @@
         <meta name="author" content="yufan wang">
         <!-- STYLES -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-        <link rel="stylesheet" type="text/css" href="/css/style.css?rnd=156">
+        <link rel="stylesheet" type="text/css" href="/css/style.css?rnd=157">
         <link rel="shortcut icon" href="/src/favicon.ico">
         <!-- SCRIPTS -->
         <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
@@ -358,56 +358,5 @@
                 </div>
             </div>
         </div>
-        <!-- ===== 临时诊断探针，查清「滚不回顶部」后即删 ===== -->
-        <div id="probe" style="position:fixed;left:0;right:0;bottom:0;z-index:99999;
-             background:#111;color:#0f0;font:10px/1.35 ui-monospace,monospace;
-             padding:6px 8px;white-space:pre;pointer-events:none"></div>
-        <script>
-        (function () {
-            var el = document.getElementById('probe');
-            var log = [];
-            var t0 = Date.now();
-            function mark(tag) {
-                log.push(('     ' + (Date.now() - t0)).slice(-5) + 'ms ' + tag +
-                         ' y=' + Math.round(window.scrollY) +
-                         ' h=' + document.documentElement.scrollHeight);
-                if (log.length > 7) log.shift();
-                draw();
-            }
-            function draw() {
-                var cc = document.querySelector('.content-container');
-                var ti = document.querySelector('.section-title');
-                var de = document.documentElement;
-                el.textContent =
-                  'restore=' + (history.scrollRestoration || 'n/a') +
-                  '  y=' + Math.round(window.scrollY) +
-                  '  h=' + de.scrollHeight +
-                  '  vh=' + de.clientHeight + '\n' +
-                  'title top ' + (ti ? Math.round(ti.getBoundingClientRect().top) : 'n/a') +
-                  '   content top ' + Math.round(cc.getBoundingClientRect().top) + '\n' +
-                  log.join('\n');
-            }
-            mark('script');
-            addEventListener('DOMContentLoaded', function () { mark('DOMready'); });
-            addEventListener('load', function () { mark('load   '); });
-            setTimeout(function () { mark('+500ms '); }, 500);
-            setTimeout(function () { mark('+2s    '); }, 2000);
-            setTimeout(function () { mark('+5s    '); }, 5000);
-            var last = -1;
-            addEventListener('scroll', function () {
-                // 只在停止滚动后记一次，避免刷屏
-                clearTimeout(window.__pt);
-                window.__pt = setTimeout(function () {
-                    if (Math.round(window.scrollY) !== last) {
-                        last = Math.round(window.scrollY);
-                        mark('settled');
-                    }
-                }, 250);
-                draw();
-            }, {passive: true});
-            addEventListener('resize', draw);
-        })();
-        </script>
-        <!-- ===== 探针结束 ===== -->
     </body>
 </html>

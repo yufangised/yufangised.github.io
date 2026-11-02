@@ -25,17 +25,6 @@
 body {
     font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     font-size: small;
-
-    /* Chrome 的 scroll anchoring 会在锚点上方内容尺寸变化时自动修正 scrollTop。
-       这些页面有懒加载的图和轮播，于是往上滑时 Chrome 不断把人推回去，
-       scrollY 卡在 113 回不到 0，紧贴顶部的项目标题就一直压在固定白条底下。
-       Safari 没有实现这个特性，所以只有 Chrome 复现。
-       Chrome's scroll anchoring corrects scrollTop whenever content above the
-       anchor changes size. With lazily loaded carousel images that means
-       scrolling up gets pushed back — scrollY stuck at 113, never reaching 0,
-       leaving the project title under the fixed bar. Safari has no such
-       feature, which is why it only happens in Chrome. */
-    overflow-anchor: none;
 }
 
 /* Space Grotesk 只给两处：导航，以及独占一行的标题（.section-title）。
