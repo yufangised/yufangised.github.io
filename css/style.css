@@ -320,12 +320,15 @@ body {
         flex-direction: column; /* Stack items vertically */
         height: auto; /* Shrink to fit content */
         width: 240px; /* Full width */
-        padding: 20px;
-        /* 左内边距对齐 .content-container 的 16px —— 否则导航的
-           YUFAN WANG 比正文往右缩 4px，两条左边界对不齐。
-           Match .content-container's 16px so the nav's left edge lines up
-           with the body text instead of sitting 4px further in. */
-        padding-left: 16px;
+        /* 左右 16px 对齐 .content-container，上下收到 12px：
+           通栏从 66px 降到约 50px，标题与通栏之间的净空从 30px 变成 46px。
+           净空太窄时，一次惯性滑动就能把标题滑进通栏底下，而且要让它回来
+           必须恰好停在顶部那 30px 内。
+           16px left/right lines the nav up with .content-container; 12px top
+           and bottom takes the bar from 66px to ~50px, widening the gap below
+           it from 30px to 46px. At 30px a single flick of momentum swallowed
+           the title, and getting it back meant landing within 30px of the top. */
+        padding: 12px 16px;
         z-index: 999;
     }
 
