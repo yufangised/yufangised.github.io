@@ -125,11 +125,20 @@ body {
     .svg-status-bar > i { transition: none; }
 }
 
+/* 这条原本没有媒体查询，于是 75% 在手机上也生效 —— 390px 屏上正文
+   只剩 202px，一半屏幕是空白。75% 只对桌面有意义，窄屏要整宽。
+   This rule had no media query, so 75% also applied on phones: 202px of
+   text on a 390px screen. The narrow column is a desktop idea only. */
 .col-md-9 {
-    -ms-flex: 0 0 75%;
-    flex: 0 0 75%;
-    max-width: 100%; 
- }
+    max-width: 100%;
+}
+
+@media (min-width: 768px) {
+    .col-md-9 {
+        -ms-flex: 0 0 75%;
+        flex: 0 0 75%;
+    }
+}
 
 
 .img-fluid {
@@ -323,7 +332,17 @@ body {
     }
    
     .content-container {
-        top:80px;
-        left:20px;
+        top: 80px;
+        left: 0;
+        padding: 16px;     /* 唯一的侧边槽，原来是 30px + 列内 15px */
+    }
+
+    /* Bootstrap 给每个 .col-* 加了 15px 左右内边距，叠在上面的 padding 上
+       又吃掉 30px。窄屏上交给 .content-container 统一管。
+       Bootstrap adds 15px of gutter to every .col-*, stacking on top of the
+       container's own padding. On a narrow screen one gutter is enough. */
+    .content-container [class*="col-"] {
+        padding-left: 0;
+        padding-right: 0;
     }
 }
