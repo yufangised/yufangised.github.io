@@ -349,4 +349,16 @@ body {
         padding-left: 0;
         padding-right: 0;
     }
+
+    /* 项目页的返回型导航（只有 YUFAN WANG 一个链接）在手机上是 position:fixed，
+       正文会从它底下滚过去。给它一条贯穿的白色通栏，文字滚到这里就被挡住。
+       首页的 .menu 不带这个类 —— 它是压在全屏背景图上的主导航，加白底会毁掉。
+       The single-link back nav on project pages is fixed on mobile and body copy
+       scrolls under it. A full-bleed white bar hides the text at that edge.
+       The homepage nav does not carry this class: it sits over the full-screen
+       image and a white bar would destroy it. */
+    .menu--back {
+        width: 100%;
+        background: #fff;
+    }
 }
