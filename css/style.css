@@ -169,6 +169,18 @@ body {
     opacity: 0.82;
 }
 
+/* 鼠标位置染色：没有悬停任何菜单项时，背景不再是 default.png，
+   而是一块跟着指针走的颜色。越靠近左侧菜单越白，保证菜单始终可读。
+   过渡必须短 —— 继承 .full-screen-container 的 0.5s 会让颜色拖在指针后面。
+   Pointer-driven wash: with no menu item hovered the background is a colour
+   that follows the cursor, fading to white as it nears the menu so the nav
+   stays legible. The transition has to be short; inheriting the container's
+   0.5s would leave the colour lagging behind the pointer. */
+.full-screen-container.is-wash {
+    background-image: none;
+    transition: background-color 140ms linear;
+}
+
 @media (prefers-reduced-motion: reduce) {
     .full-screen-container { transition: none; }
 }

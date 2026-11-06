@@ -81,8 +81,45 @@
             const ready = new Set();           // 已完全加载的全尺寸图
             let current = null;                // 当前选中的菜单项（触屏没有 :hover，不能靠它判断）
             function show(url, preview) {
+                backgroundContainer.classList.remove('is-wash');
                 backgroundContainer.style.backgroundImage = `url('${url}')`;
                 backgroundContainer.classList.toggle('is-preview', !!preview);
+            }
+
+            /* ── 鼠标位置染色 ──────────────────────────────────────────────
+               没有悬停菜单项时，背景是一块跟着指针走的颜色而不是 default.png。
+
+               水平方向决定「有多少颜色」：t 是指针离开菜单右缘的距离，归一化到
+               0–1，再平方一次 —— 让左侧三分之一基本保持纯白，菜单始终压得住。
+               垂直方向决定色相，所以上下移动是换色而不是变深。
+               每次加载随机一个色相起点，于是每次访问都不一样，但移动过程连续，
+               不会像真随机那样闪烁。
+
+               Horizontal position sets how much colour there is: t is the pointer's
+               distance past the menu's right edge, normalised and then squared so the
+               left third stays essentially white and the nav always holds. Vertical
+               position sets the hue, so moving up and down changes colour rather than
+               depth. The hue origin is randomised per load — every visit differs, but
+               movement stays continuous instead of strobing the way true random would. */
+            const hueSeed = Math.random() * 360;
+            let px = 0, py = 0, hasPointer = false;
+
+            function washAt(x, y) {
+                const menu = document.querySelector('.menu');
+                const edge = menu ? menu.getBoundingClientRect().right : 240;
+                const span = Math.max(1, window.innerWidth - edge);
+                const t = Math.min(1, Math.max(0, (x - edge) / span));
+                const e = t * t;                                  // 靠近菜单处留白更久
+                const hue = (hueSeed + (y / window.innerHeight) * 140 + t * 60) % 360;
+                backgroundContainer.classList.remove('is-preview');
+                backgroundContainer.classList.add('is-wash');
+                backgroundContainer.style.backgroundColor =
+                    `hsl(${hue.toFixed(1)}, ${(72 * e).toFixed(1)}%, ${(100 - 32 * e).toFixed(1)}%)`;
+            }
+
+            function showDefault() {
+                if (washOn) washAt(hasPointer ? px : 0, hasPointer ? py : 0);
+                else show(DEFAULT, false);
             }
 
             function activate(link) {
@@ -101,6 +138,23 @@
                 img.src = full;                          // 最终显示的始终是全尺寸图
             }
 
+            /* 只在能悬停的设备上染色；触屏没有指针，保留 default.png。
+               reduced-motion 也退回静态背景。 */
+            const washOn = window.matchMedia('(hover: hover)').matches
+                        && !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+            if (washOn) {
+                washAt(0, 0);                                     // 起始即纯白，跟原来观感一致
+                let queued = false;
+                addEventListener('pointermove', (e) => {
+                    px = e.clientX; py = e.clientY; hasPointer = true;
+                    if (current || queued) return;                // 悬停菜单项时不染色
+                    queued = true;
+                    requestAnimationFrame(() => { queued = false; if (!current) washAt(px, py); });
+                }, { passive: true });
+                addEventListener('resize', () => { if (!current) showDefault(); });
+            }
+
             // 背景预览是悬停态的交互。触屏上点一下就导航走了，全尺寸加载必然被中断，
             // 预览只会把一张缩略图留在 bfcache 里。所以只在真正能悬停的设备上启用。
             if (window.matchMedia('(hover: hover)').matches) {
@@ -109,7 +163,7 @@
                     link.addEventListener('mouseout', () => {
                         if (current !== link) return;    // 已切到别项就别抢
                         current = null;
-                        show(DEFAULT, false);
+                        showDefault();
                     });
                 });
 
