@@ -8,13 +8,14 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;1,400&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
-    <!-- ico 先、且标明确切尺寸；svg 放后面。写成 sizes="any" 会让 Chrome
-             认为 ico 可无限缩放而优先选它，于是烤死的深墨色贴到了深色标签栏上。
-             ico first with an explicit size, svg after. sizes="any" makes Chrome
-             treat the ico as scalable and prefer it over the svg, which is how the
-             baked dark ink ended up on dark browser chrome. -->
-        <link rel="icon" href="/src/favicon.ico" sizes="32x32">
+        <!-- 不要声明 .ico。它是栅格的，烤死了浅色模式那版墨色；只要它在声明里，
+             Chrome 就可能挑它而不是 svg，于是深色标签栏上出现黑底黑三角。
+             presentink 的圆之所以正常，就是因为它压根没声明 ico。
+             Do not declare the .ico. It is raster and bakes the light-mode ink, and
+             while it is listed Chrome may pick it over the svg — which is how dark ink
+             landed on dark chrome. presentink's circle works because it declares none. -->
         <link rel="icon" href="/src/favicon.svg" type="image/svg+xml">
+        <link rel="icon" href="/src/favicon-32.png" sizes="32x32" type="image/png">
         <link rel="apple-touch-icon" href="/src/apple-touch-icon.png">
     <style>
         /* 密码门 —— 与站点一致：Space Grotesk 做标签，Inter 做正文，
