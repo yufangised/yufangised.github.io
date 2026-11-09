@@ -15,9 +15,13 @@
         <!-- STYLES -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
         <link rel="stylesheet" type="text/css" href="/css/style.css?rnd=159">
+        <!-- ico 先、且标明确切尺寸；svg 放后面。写成 sizes="any" 会让 Chrome
+             认为 ico 可无限缩放而优先选它，于是烤死的深墨色贴到了深色标签栏上。
+             ico first with an explicit size, svg after. sizes="any" makes Chrome
+             treat the ico as scalable and prefer it over the svg, which is how the
+             baked dark ink ended up on dark browser chrome. -->
+        <link rel="icon" href="/src/favicon.ico" sizes="32x32">
         <link rel="icon" href="/src/favicon.svg" type="image/svg+xml">
-        <link rel="icon" href="/src/favicon-32.png" sizes="32x32" type="image/png">
-        <link rel="icon" href="/src/favicon.ico" sizes="any">
         <link rel="apple-touch-icon" href="/src/apple-touch-icon.png">
         <!-- SCRIPTS -->
         <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
